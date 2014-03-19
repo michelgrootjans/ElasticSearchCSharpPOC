@@ -44,7 +44,7 @@ namespace ElasticSearch.POC.ConsoleApp
         {
             var connection = new ElasticConnection("localhost");
             var command = string.Format("http://localhost:9200/twitter/user/{0}", id);
-            var tweet = string.Format("{{{0}: {1},{2}: {3}}}", Enquote("FirstName"), Enquote(firstName), Enquote("LastName"), Enquote(lastName));
+            var tweet = string.Format("{{\"FirstName\": \"{0}\",\"LastName\": \"{1}\"}}", firstName, lastName);
             var response = connection.Put(command, tweet);
             Console.WriteLine(response);
         }
@@ -62,11 +62,6 @@ namespace ElasticSearch.POC.ConsoleApp
             {
                 Console.WriteLine("OK");
             }
-        }
-
-        private static string Enquote(string txt)
-        {
-            return string.Format("\"{0}\"", txt);
         }
     }
 
