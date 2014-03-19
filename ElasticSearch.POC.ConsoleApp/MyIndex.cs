@@ -2,6 +2,7 @@
 using PlainElastic.Net;
 using PlainElastic.Net.Queries;
 using PlainElastic.Net.Serialization;
+using PlainElastic.Net.Utils;
 
 namespace ElasticSearch.POC.ConsoleApp
 {
@@ -18,12 +19,14 @@ namespace ElasticSearch.POC.ConsoleApp
         {
             var query = new QueryBuilder<User>()
                 .Query(q => q
-                    .Bool(b => b
-                        .Must(m => m
-                            .QueryString(qs => qs
-                                .Fields(user => user.FirstName, user => user.LastName, user => user.UserName)
-                                .Query(queryString)
-                            ))))
+                    .QueryString(qs => qs
+                        .Fields(u => u.FirstName, u => u.LastName, u => u.UserName)
+                        .Query(queryString)))
+                .Facets(facets => facets
+                    .Terms(t => t
+                        .FacetName("TypeCount")
+                        .Field("_type")
+                        .Size(100)))
                 .BuildBeautified();
 
             var serializer = new JsonNetSerializer();
@@ -33,8 +36,8 @@ namespace ElasticSearch.POC.ConsoleApp
             var result = connection.Post(Commands.Search("twitter"), query);
             var users = serializer.ToSearchResult<User>(result).Documents;
 
-            foreach (var user in users)
-                Console.WriteLine("Found [{0}]", user);
+            Console.WriteLine(result.Result.BeautifyJson());
+
         }
     }
 }
