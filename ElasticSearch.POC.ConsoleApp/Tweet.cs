@@ -1,4 +1,3 @@
-using System;
 using PlainElastic.Net;
 using PlainElastic.Net.Serialization;
 
@@ -19,14 +18,19 @@ namespace ElasticSearch.POC.ConsoleApp
 
     internal class TweetIndexer
     {
+        private readonly ElasticConnection connection;
+
+        public TweetIndexer(ElasticConnection connection)
+        {
+            this.connection = connection;
+        }
+
         public void Index(string tweeter, string text)
         {
-            var connection = new ElasticConnection("localhost");
             var tweet = new Tweet { UserName = tweeter, Text = text };
             var command = Commands.Index(index: "twitter", type: "tweet", id: tweet._id);
             var user = new JsonNetSerializer().ToJson(tweet);
-            var response = connection.Put(command, user);
-            Console.WriteLine(response);
+            connection.Put(command, user);
         }
     }
 }

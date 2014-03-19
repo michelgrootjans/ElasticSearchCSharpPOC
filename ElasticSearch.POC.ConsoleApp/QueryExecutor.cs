@@ -6,11 +6,11 @@ using PlainElastic.Net.Utils;
 
 namespace ElasticSearch.POC.ConsoleApp
 {
-    internal class MyIndex
+    internal class QueryExecutor
     {
         private readonly IElasticConnection connection;
 
-        public MyIndex(IElasticConnection connection)
+        public QueryExecutor(IElasticConnection connection)
         {
             this.connection = connection;
         }

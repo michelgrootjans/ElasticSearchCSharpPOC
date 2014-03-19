@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyIndex.cs" />
+    <Compile Include="QueryExecutor.cs" />
     <Compile Include="Tweet.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Program.cs" />
