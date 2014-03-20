@@ -1,4 +1,5 @@
 ﻿using System;
+using ElasticSearch.POC.ConsoleApp.Indexables;
 using PlainElastic.Net;
 
 namespace ElasticSearch.POC.ConsoleApp
