@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using PlainElastic.Net;
 
 namespace ElasticSearch.POC.ConsoleApp
@@ -11,15 +10,13 @@ namespace ElasticSearch.POC.ConsoleApp
             var connection = new ElasticConnection("localhost");
             ResetIndex(connection, "twitter");
 
-            var user = new UserIndexer(connection);
-            user.Index("Michel", "Grootjans");
-            user.Index("Bill", "Gates");
-            user.Index("Steve", "Jobs");
-            user.Index("Barak", "Obama");
-            user.Index("Michele", "Obamma");
-
-            var tweetIndexer = new TweetIndexer(connection);
-            tweetIndexer.Index("michelgrootjans", "Ik schrijf een elasticsearch POC");
+            var indexer = new Indexer(connection, "twitter");
+            indexer.Index(new User { FirstName = "Michel", LastName = "Grootjans" });
+            indexer.Index(new User { FirstName = "Bill", LastName = "Gates" });
+            indexer.Index(new User { FirstName = "Steve", LastName = "Jobs" });
+            indexer.Index(new User { FirstName = "Barak", LastName = "Obama" });
+            indexer.Index(new User { FirstName = "Michele", LastName = "Obamma" });
+            indexer.Index(new Tweet { UserName = "michelgrootjans", Text = "Ik schrijf een elasticsearch POC" });
 
             Flush(connection, "twitter");
 

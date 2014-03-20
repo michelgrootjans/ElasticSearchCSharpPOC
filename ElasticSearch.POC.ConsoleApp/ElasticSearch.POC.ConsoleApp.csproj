@@ -48,8 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Indexer.cs" />
     <Compile Include="QueryExecutor.cs" />
-    <Compile Include="Tweet.cs" />
+    <Compile Include="IIndexable.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
