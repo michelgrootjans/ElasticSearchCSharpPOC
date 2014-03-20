@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using PlainElastic.Net;
 
@@ -10,19 +9,19 @@ namespace ElasticSearch.POC.ConsoleApp
         static void Main(string[] args)
         {
             var connection = new ElasticConnection("localhost");
-            ResetIndex(connection);
+            ResetIndex(connection, "twitter");
 
             var user = new UserIndexer(connection);
             user.Index("Michel", "Grootjans");
             user.Index("Bill", "Gates");
             user.Index("Steve", "Jobs");
             user.Index("Barak", "Obama");
-            user.Index("Michele", "Obama");
+            user.Index("Michele", "Obamma");
 
-            var tweet = new TweetIndexer(connection);
-            tweet.Index("michelgrootjans", "Ik schrijf een elasticsearch POC");
+            var tweetIndexer = new TweetIndexer(connection);
+            tweetIndexer.Index("michelgrootjans", "Ik schrijf een elasticsearch POC");
 
-            Sleep(3);
+            Flush(connection, "twitter");
 
             new QueryExecutor(connection).Query("michel*");
 
@@ -30,20 +29,20 @@ namespace ElasticSearch.POC.ConsoleApp
             Console.ReadLine();
         }
 
-        private static void ResetIndex(ElasticConnection connection)
+        private static void ResetIndex(IElasticConnection connection, string index)
         {
-
+            try
+            {
+                var deleteCommand = Commands.Delete(index: index);
+                connection.Delete(deleteCommand);
+            }
+            catch {}
         }
 
-        private static void Sleep(int numberOfSeconds)
+        private static void Flush(IElasticConnection connection, string index)
         {
-            Console.Write("Let ES do its indexing ");
-            for (int second = 0; second < numberOfSeconds; second++)
-            {
-                Thread.Sleep(1000);
-                Console.Write(".");
-            }
-            Console.WriteLine();
+            var flushCommand = Commands.Flush(index: index);
+            connection.Post(flushCommand);
         }
 
     }

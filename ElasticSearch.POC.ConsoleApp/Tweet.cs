@@ -18,9 +18,9 @@ namespace ElasticSearch.POC.ConsoleApp
 
     internal class TweetIndexer
     {
-        private readonly ElasticConnection connection;
+        private readonly IElasticConnection connection;
 
-        public TweetIndexer(ElasticConnection connection)
+        public TweetIndexer(IElasticConnection connection)
         {
             this.connection = connection;
         }

@@ -29,10 +29,10 @@ namespace ElasticSearch.POC.ConsoleApp
 
     internal class UserIndexer
     {
-        private readonly ElasticConnection connection;
+        private readonly IElasticConnection connection;
         private readonly JsonNetSerializer serializer;
 
-        public UserIndexer(ElasticConnection connection)
+        public UserIndexer(IElasticConnection connection)
         {
             this.connection = connection;
             serializer = new JsonNetSerializer();
