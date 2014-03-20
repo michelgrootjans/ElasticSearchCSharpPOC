@@ -20,5 +20,21 @@ namespace ElasticSearch.POC.ConsoleApp
             var user = new JsonNetSerializer().ToJson(indexable);
             connection.Put(command, user);
         }
+
+        public void Flush()
+        {
+            var flushCommand = Commands.Flush(index: index_name);
+            connection.Post(flushCommand);
+        }
+
+        public void Reset()
+        {
+            try
+            {
+                var deleteCommand = Commands.Delete(index: index_name);
+                connection.Delete(deleteCommand);
+            }
+            catch { }
+        }
     }
 }
