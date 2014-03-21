@@ -17,8 +17,8 @@ namespace ElasticSearch.POC.ConsoleApp
         public void Index(IIndexable indexable)
         {
             var command = Commands.Index(index: index_name, type: indexable.GetType().Name, id: indexable._id);
-            var user = new JsonNetSerializer().ToJson(indexable);
-            connection.Put(command, user);
+            var data = new JsonNetSerializer().ToJson(indexable);
+            connection.Put(command, data);
         }
 
         public void Flush()

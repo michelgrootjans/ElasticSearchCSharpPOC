@@ -34,6 +34,8 @@ namespace ElasticSearch.POC.ConsoleApp
             indexer.Index(new Tweet {UserName = "billgates", Text = "Damn you steve, your phone is more succesful than mine"});
 
             indexer.Index(new User {FirstName = "Steve", LastName = "Jobs"});
+            indexer.Index(new Tweet { UserName = "stevejobs", Text = "Famous last words: wait 'till you see the iPhone 7" });
+
             indexer.Index(new User {FirstName = "Barak", LastName = "Obama"});
             indexer.Index(new User {FirstName = "Michele", LastName = "Obama"});
 
