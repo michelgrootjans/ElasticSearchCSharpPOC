@@ -5,16 +5,10 @@ function notify(error_type, message){
 };
 
 function display(item){
-  if(item._type == 'user') { return display_user(item._source); }
-  if(item._type == 'tweet') { return display_tweet(item._source); }
-}
-
-function display_user(user){
-  return "user: " + user.UserName + "(" + user.FirstName + " " + user.LastName + ")";
-}
-
-function display_tweet(tweet){
-  return tweet.UserName + " tweeted: " + tweet.Text;
+  var transform = { 'tag': 'li' };
+  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName})'; }
+  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}'" }
+  return json2html.transform(item._source, transform)
 }
 
 $(document).ready(function(){
@@ -41,7 +35,7 @@ $('#search').change(function(){
   client.search({ q: $(this).val()})
         .then(function(body){
           body.hits.hits.forEach(function(item){
-            var div = $('<div/>');
+            var div = $('<ul/>');
             div.html(display(item));
             $('#search_results').append(div);
           });
