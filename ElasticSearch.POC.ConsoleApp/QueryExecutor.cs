@@ -9,7 +9,7 @@ namespace ElasticSearch.POC.ConsoleApp
     internal class QueryExecutor
     {
         private readonly IElasticConnection connection;
-        private string index_name;
+        private readonly string index_name;
 
         public QueryExecutor(IElasticConnection connection, string indexName)
         {
