@@ -7,15 +7,23 @@
   
   
   <link  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
 
-  <script src="elasticsearch-js/elasticsearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/elasticsearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/elasticsearch.jquery.js" type="text/javascript" charset="utf-8"></script>
+
+  <script src="js/search.js" type="text/javascript" charset="utf-8"></script>
+  <link  href="css/style.css" rel="stylesheet" />
 </head>
 <body>
+  <div id='notifications'></div>
   <div class="ui-widget"> 
-    <label for="search">search: </label> 
-    <input id="search" /> 
+    <label for="search" id="test">search</label> 
+    <input  id="search" /> 
   </div>
+
+  <div id='facets'></div>
+  <div id='search_results'>This is where search results will appear</div>
 </body>
 </html>
