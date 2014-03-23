@@ -1,3 +1,17 @@
+function ping(client){
+  client.ping({
+      requestTimeout: 1000,
+      hello: "elasticsearch!"
+    }, function(error){
+      if (error){
+        notify('error', 'elasticsearch cluster is down');
+      } else {
+        notify('success', 'elasticsearch cluster is up');
+      }
+    }
+  );
+}
+
 function notify(error_type, message){
   $('#notifications').attr('class', '')
                      .addClass(error_type)
@@ -18,17 +32,9 @@ $(document).ready(function(){
     ,log: 'trace'
   });
 
-  client.ping({
-      requestTimeout: 1000,
-      hello: "elasticsearch!"
-    }, function(error){
-      if (error){
-        notify('error', 'elasticsearch cluster is down');
-      } else {
-        notify('success', 'elasticsearch cluster is up');
-      }
-    }
-  );
+  ping(client);
+
+  simple_search(client, $(this).val());
 
 $('#search').change(function(){
   $('#search_results').html('');
@@ -46,4 +52,4 @@ $('#search').change(function(){
 
 });
 
-
+function simple_search(client, query){}
