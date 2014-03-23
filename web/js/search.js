@@ -28,28 +28,27 @@ function display(item){
 $(document).ready(function(){
 
   var client = new $.es.Client({
-    hosts: ['192.168.1.106:9200']
-    ,log: 'trace'
+    hosts: ['192.168.1.106:9200'],
+    log: 'trace'
   });
 
   ping(client);
-
-  simple_search(client, $(this).val());
-
-$('#search').change(function(){
-  $('#search_results').html('');
-  client.search({ q: $(this).val()})
-        .then(function(body){
-          body.hits.hits.forEach(function(item){
-            var div = $('<ul/>');
-            div.html(display(item));
-            $('#search_results').append(div);
-          });
-        }, function(error){
-          notify('error', error.message);
-        })
+  $('#search').change(function(){
+    simple_search(client, $(this).val(), $('#search_results'));
   });
 
 });
 
-function simple_search(client, query){}
+function simple_search(client, query, output_element){
+  output_element.html('');
+  var list = $('<ul/>');
+  output_element.append(list);
+  client.search({q: query})
+        .then(function(body){
+          body.hits.hits.forEach(function(item){
+            list.append(display(item));
+          });
+        }, function(error){
+          notify('error', error.message);
+        });
+}
