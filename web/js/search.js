@@ -1,51 +1,18 @@
-function ping(client){
-  client.ping({
-      requestTimeout: 1000,
-      hello: "elasticsearch!"
-    }, function(error){
-      if (error){
-        notify('error', 'elasticsearch cluster is down');
-      } else {
-        notify('success', 'elasticsearch cluster is up');
-      }
-    }
-  );
-}
-
-function notify(error_type, message){
-  $('#notifications').attr('class', '')
-                     .addClass(error_type)
-                     .html(message)
-};
-
-function display_result(item){
-  var transform = { 'tag': 'li' };
-  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName})'; }
-  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}'" }
-  return json2html.transform(item._source, transform)
-}
-
-function display_facet(facet){
-  var transform = { 'tag': 'li', 'html': '${term}: ${count}'};
-  return json2html.transform(facet, transform)
-}
-
 $(document).ready(function(){
 
   var client = new $.es.Client({
     hosts: ['192.168.1.106:9200'],
-    log: 'trace'
+//    log: 'trace'
   });
 
   ping(client);
   $('#search').change(function(){
-    //simple_search(client, $(this).val(), $('#search_results'));
-    advanced_search(client, $(this).val());
+    search(client, $(this).val());
   });
 
 });
 
-function advanced_search(client, q){
+function search(client, q){
   var results = $('<ul/>');
   var facets  = $('<ul/>');
 
@@ -94,3 +61,36 @@ function simple_search(client, query, output_element){
           notify('error', error.message);
         });
 }
+
+function ping(client){
+  client.ping({
+      requestTimeout: 1000,
+      hello: "elasticsearch!"
+    }, function(error){
+      if (error){
+        notify('error', 'elasticsearch cluster is down');
+      } else {
+        notify('success', 'elasticsearch cluster is up');
+      }
+    }
+  );
+}
+
+function notify(error_type, message){
+  $('#notifications').attr('class', '')
+                     .addClass(error_type)
+                     .html(message)
+};
+
+function display_result(item){
+  var transform = { 'tag': 'li' };
+  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName})'; }
+  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}'" }
+  return json2html.transform(item._source, transform)
+}
+
+function display_facet(facet){
+  var transform = { 'tag': 'li', 'html': '${term} (${count})'};
+  return json2html.transform(facet, transform)
+}
+
