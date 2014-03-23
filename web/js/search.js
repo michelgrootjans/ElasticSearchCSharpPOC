@@ -14,7 +14,7 @@ function display(item){
 $(document).ready(function(){
 
   var client = new $.es.Client({
-    hosts: ['192.168.1.104:9200']
+    hosts: ['192.168.1.106:9200']
     ,log: 'trace'
   });
 
