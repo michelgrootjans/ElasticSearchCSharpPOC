@@ -18,11 +18,16 @@ function notify(error_type, message){
                      .html(message)
 };
 
-function display(item){
+function display_result(item){
   var transform = { 'tag': 'li' };
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName})'; }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}'" }
   return json2html.transform(item._source, transform)
+}
+
+function display_facet(facet){
+  var transform = { 'tag': 'li', 'html': '${term}: ${count}'};
+  return json2html.transform(facet, transform)
 }
 
 $(document).ready(function(){
@@ -34,16 +39,18 @@ $(document).ready(function(){
 
   ping(client);
   $('#search').change(function(){
-    $('#search_results').html('');
     //simple_search(client, $(this).val(), $('#search_results'));
-    advanced_search(client, $(this).val(), $('#search_results'));
+    advanced_search(client, $(this).val());
   });
 
 });
 
-function advanced_search(client, q, output_element){
+function advanced_search(client, q){
   var results = $('<ul/>');
-  output_element.append(results);
+  var facets  = $('<ul/>');
+
+  $('#search_results').html('').append(results);
+  $('#facets').html('').append(facets);
 
   client.search(
   {
@@ -65,7 +72,10 @@ function advanced_search(client, q, output_element){
           }
   }).then(function(body) {
     body.hits.hits.forEach(function(item){
-      results.append(display(item));
+      results.append(display_result(item));
+    });
+    body.facets.tags.terms.forEach(function(facet){
+      facets.append(display_facet(facet));
     });
   }, function(error) {
     notify('error', error.message);
