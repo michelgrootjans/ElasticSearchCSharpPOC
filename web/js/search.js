@@ -54,7 +54,6 @@ function advanced_search(client, q){
 
   client.search(
   {
-    index: 'twitter',
     body: {
             query: {
               query_string: {
