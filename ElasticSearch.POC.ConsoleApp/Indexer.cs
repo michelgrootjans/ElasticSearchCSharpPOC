@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Microsoft.SqlServer.Server;
 using PlainElastic.Net;
 using PlainElastic.Net.Serialization;
 
@@ -35,6 +37,18 @@ namespace ElasticSearch.POC.ConsoleApp
                 connection.Delete(deleteCommand);
             }
             catch { }
+        }
+
+        public void Index<T>(IEnumerable<T> indexables) where T : IIndexable
+        {
+            var command = Commands.Bulk(index_name, typeof (T).Name);
+            var serializer = new JsonNetSerializer();
+            string bulkJson =
+                new BulkBuilder(serializer)
+                   .BuildCollection(indexables,
+                        (builder, indexable) => builder.Index(data: indexable, id: indexable._id)
+            );
+            connection.Put(command, bulkJson);
         }
     }
 }

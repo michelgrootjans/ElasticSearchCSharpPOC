@@ -84,8 +84,9 @@ function notify(error_type, message){
 
 function display_result(item){
   var transform = { 'tag': 'li' };
-  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName})'; }
-  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}'" }
+  var score = item._score;
+  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score; }
+  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
   return json2html.transform(item._source, transform)
 }
 
