@@ -42,8 +42,8 @@ $(document).ready(function(){
 });
 
 function advanced_search(client, q, output_element){
-  var list = $('<ul/>');
-  output_element.append(list);
+  var results = $('<ul/>');
+  output_element.append(results);
 
   client.search(
   {
@@ -53,11 +53,19 @@ function advanced_search(client, q, output_element){
               query_string: {
                 query: q
               }
+            },
+            facets: {
+              tags: {
+                terms: {
+                  field: '_type',
+                  size: 100
+                }
+              }
             }
           }
   }).then(function(body) {
     body.hits.hits.forEach(function(item){
-      list.append(display(item));
+      results.append(display(item));
     });
   }, function(error) {
     notify('error', error.message);
