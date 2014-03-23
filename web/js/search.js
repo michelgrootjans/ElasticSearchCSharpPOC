@@ -34,13 +34,38 @@ $(document).ready(function(){
 
   ping(client);
   $('#search').change(function(){
-    simple_search(client, $(this).val(), $('#search_results'));
+    $('#search_results').html('');
+    //simple_search(client, $(this).val(), $('#search_results'));
+    advanced_search(client, $(this).val(), $('#search_results'));
   });
 
 });
 
+function advanced_search(client, q, output_element){
+  var list = $('<ul/>');
+  output_element.append(list);
+
+  client.search(
+  {
+    index: 'twitter',
+    body: {
+            query: {
+              query_string: {
+                query: q
+              }
+            }
+          }
+  }).then(function(body) {
+    body.hits.hits.forEach(function(item){
+      list.append(display(item));
+    });
+  }, function(error) {
+    notify('error', error.message);
+  });
+}
+
+
 function simple_search(client, query, output_element){
-  output_element.html('');
   var list = $('<ul/>');
   output_element.append(list);
   client.search({q: query})
