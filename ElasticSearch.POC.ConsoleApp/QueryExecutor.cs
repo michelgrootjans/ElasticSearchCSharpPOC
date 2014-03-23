@@ -31,6 +31,8 @@ namespace ElasticSearch.POC.ConsoleApp
                         .Size(100)))
                 .BuildBeautified();
 
+            Console.WriteLine(query);
+
             var result = connection.Post(Commands.Search(index_name), query);
             Console.WriteLine(result.Result.BeautifyJson());
 
