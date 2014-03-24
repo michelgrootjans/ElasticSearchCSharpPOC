@@ -46,7 +46,7 @@ namespace ElasticSearch.POC.ConsoleApp
             string bulkJson =
                 new BulkBuilder(serializer)
                    .BuildCollection(indexables,
-                        (builder, indexable) => builder.Index(data: indexable, id: indexable._id)
+                        (builder, tweet) => builder.Index(data: tweet, id: tweet._id)
             );
             connection.Put(command, bulkJson);
         }

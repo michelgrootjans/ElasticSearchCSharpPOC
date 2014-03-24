@@ -87,6 +87,7 @@ function display_result(item){
   var score = item._score;
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score; }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
+  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score }
   return json2html.transform(item._source, transform)
 }
 
