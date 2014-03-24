@@ -8,9 +8,6 @@ $(document).ready(function(){
   ping(client);
   execute_search(client);
 
-  var url = $.deparam();
-  console.log(url);
-
 });
 
 function execute_search(client){
@@ -38,7 +35,10 @@ function execute_search(client){
             },
             facets: {
               tags: {
-                terms: [{ field: '_type'}, field: ]
+                terms: {
+                  field: '_type',
+                  size: 100
+                }
               }
             }
           }
