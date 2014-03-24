@@ -17,17 +17,22 @@
   <script src="js/jquery.json2html.js" type="text/javascript" charset="utf-8"></script>
 
   <script src="js/jquery.querystring.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/jquery.ba-bbq.js" type="text/javascript" charset="utf-8"></script>
+
   <script src="js/search.js" type="text/javascript" charset="utf-8"></script>
   <link  href="css/style.css" rel="stylesheet" />
 </head>
 <body>
   <div id='notifications'></div>
   <div class="ui-widget"> 
-    <label for="search" id="test">search</label> 
-    <input  id="search" /> 
+      <form method='GET' action=''>  
+        <label for="q">search</label> 
+        <input  id="q" id="test" name="q" autofocus /> 
+      </form>
   </div>
 
   <div id='facets'></div>
   <div id='search_results'></div>
+  <div id='paging'></div>
 </body>
 </html>

@@ -13,11 +13,12 @@ namespace ElasticSearch.POC.ConsoleApp
         static void Main(string[] args)
         {
             var connection = new ElasticConnection("localhost");
-            var indexer = new Indexer(connection, "twitter");
-            var queryExecutor = new QueryExecutor(connection, "twitter");
+            var indexer = new Indexer(connection, "prisma");
+            var queryExecutor = new QueryExecutor(connection, "prisma");
 
-//            IndexData(indexer);
-            IndexVmswData(new Indexer(connection, "prisma"));
+            indexer.Reset();
+            IndexData(indexer);
+            IndexVmswData(indexer);
             while (true)
             {
                 Console.WriteLine("************************************************");
@@ -67,15 +68,12 @@ namespace ElasticSearch.POC.ConsoleApp
 
         private static void IndexVmswData(Indexer indexer)
         {
-            indexer.Reset();
             var projecten = GetVmswProjecten();
             indexer.Index(projecten);
         }
 
         private static void IndexData(Indexer indexer)
         {
-            indexer.Reset();
-
             indexer.Index(new User {FirstName = "Michel", LastName = "Grootjans"});
             indexer.Index(new Tweet {UserName = "michelgrootjans", Text = "Ik schrijf een elasticsearch POC"});
 
@@ -110,12 +108,12 @@ namespace ElasticSearch.POC.ConsoleApp
             return (Guid)value;
         }
 
-        public static short GetShortValue(this IDataReader reader, string key)
-        {
-            var value = reader[key];
-            if (value is DBNull) return 0;
-            return (short)value;
-        }
+//        public static short GetShortValue(this IDataReader reader, string key)
+//        {
+//            var value = reader[key];
+//            if (value is DBNull) return 0;
+//            return (short)value;
+//        }
 
         public static int GetIntValue(this IDataReader reader, string key)
         {
@@ -124,13 +122,13 @@ namespace ElasticSearch.POC.ConsoleApp
             return (int)value;
         }
 
-        public static string GetDateValue(this IDataReader reader, string key, string format = "dd/MM/yyyy")
-        {
-            var value = reader[key];
-            if (value is DBNull) return "";
+//        public static string GetDateValue(this IDataReader reader, string key, string format = "dd/MM/yyyy")
+//        {
+//            var value = reader[key];
+//            if (value is DBNull) return "";
 
-            return ((DateTime)value).ToString(format);
-        }
+//            return ((DateTime)value).ToString(format);
+//        }
 
         public static string GetStringValue(this IDataReader reader, string key)
         {

@@ -25,10 +25,8 @@ namespace ElasticSearch.POC.ConsoleApp
                         .Fields("_all")
                         .Query(queryString)))
                 .Facets(facets => facets
-                    .Terms(t => t
-                        .FacetName("TypeCount")
-                        .Field("_type")
-                        .Size(100)))
+                    .Terms(t => t.FacetName("Projecttypes").Field("ProjectType"))
+                    .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase")))
                 .BuildBeautified();
 
             Console.WriteLine(query);

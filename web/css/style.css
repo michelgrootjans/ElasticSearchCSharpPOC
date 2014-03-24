@@ -34,3 +34,6 @@ div#facets {
 div#search_results {
     margin-left: 15%;
 }
+#paging a.page{
+  padding: 2px;
+}
