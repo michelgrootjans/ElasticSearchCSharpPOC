@@ -34,12 +34,12 @@ function execute_search(client){
               }
             },
             facets: {
-              tags: {
-                terms: {
-                  field: '_type',
-                  size: 100
-                }
-              }
+              'projecttypes': {
+                terms: { field: 'ProjectType', size: 100 }
+              },
+              'programmatie': {
+                terms: { field: 'HuidigeProgrammatiefase', size: 100 }
+              },
             }
           }
   }).then(function(body) {
@@ -47,9 +47,17 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    body.facets.tags.terms.forEach(function(facet){
+    facets.append($('<h3/>').html('Projecttypes'));
+    body.facets.projecttypes.terms.forEach(function(facet){
       facets.append(display_facet(facet));
     });
+    facets.append($('<h3/>').html('Programmatie'));
+    body.facets.programmatie.terms.forEach(function(facet){
+      facets.append(display_facet(facet));
+    });
+
+    
+    
     display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
     notify('error', error.message);

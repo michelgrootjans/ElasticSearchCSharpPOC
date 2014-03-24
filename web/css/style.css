@@ -27,11 +27,11 @@
    margin-top: 30px;
 }
 
-div#facets {
+.side {
     width: 15%;
     float: left;
 }
-div#search_results {
+.main {
     margin-left: 15%;
 }
 #paging a.page{
