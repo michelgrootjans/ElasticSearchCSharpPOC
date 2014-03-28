@@ -3,14 +3,14 @@
 - Explore SearchResult properties for output
 - Add weight to properties
 - When to create a new index
-- Index VMSW database
-- GUID as id
 
 WIP
 ---
+- Index VMSW database
 
 Done
 ----
 - Search on all fields
 - Index objects
+- GUID as id
  

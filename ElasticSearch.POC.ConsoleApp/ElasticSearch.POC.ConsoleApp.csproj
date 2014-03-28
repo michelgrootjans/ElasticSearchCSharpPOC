@@ -49,7 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessLayer.cs" />
+    <Compile Include="IDataReaderExtensions.cs" />
     <Compile Include="Indexer.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="QueryExecutor.cs" />
     <Compile Include="IIndexable.cs" />
     <Compile Include="Indexables\Tweet.cs" />
@@ -62,7 +65,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TextFile1.txt" />
+    <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
