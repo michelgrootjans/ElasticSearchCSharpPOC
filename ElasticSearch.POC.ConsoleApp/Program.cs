@@ -13,16 +13,19 @@ namespace ElasticSearch.POC.ConsoleApp
             var queryExecutor = new QueryExecutor(connection, "prisma");
 
             indexer.Reset();
-            IndexDummyData(indexer);
+            indexer.InitializeWith(new ProjectMapper().Mapping());
             IndexVmswData(indexer);
-            while (true)
-            {
-                Console.WriteLine("************************************************");
-                Console.WriteLine("What do you want to query? (type 'exit' to exit)");
-                Console.WriteLine("************************************************");
 
-                queryExecutor.Query(Console.ReadLine());
-            }
+            indexer.Flush();
+
+//            while (true)
+//            {
+//                Console.WriteLine("************************************************");
+//                Console.WriteLine("What do you want to query? (type 'exit' to exit)");
+//                Console.WriteLine("************************************************");
+//
+//                queryExecutor.Query(Console.ReadLine());
+//            }
         }
 
         private static void IndexDummyData(Indexer indexer)
@@ -38,8 +41,6 @@ namespace ElasticSearch.POC.ConsoleApp
 
             indexer.Index(new User {FirstName = "Barak", LastName = "Obama"});
             indexer.Index(new User {FirstName = "Michele", LastName = "Obama"});
-
-            indexer.Flush();
         }
 
         private static void IndexVmswData(Indexer indexer)

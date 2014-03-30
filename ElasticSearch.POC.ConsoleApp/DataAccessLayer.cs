@@ -25,20 +25,46 @@ namespace ElasticSearch.POC.ConsoleApp
                     var resultList = new List<Project>();
                     while (reader.Read())
                     {
-                        var project = new Project
-                        {
-                            _id = reader.GetGuidValue("Id").ToString(),
-                            Identificatie = reader.GetStringValue("identificatie"),
-                            ProjectType = reader.GetStringValue("projecttype"),
-                            Omschrijving = reader.GetStringValue("omschrijving"),
-                            HuidigeProgrammatiefase = reader.GetIntValue("programmatiefase"),
-                            Status = reader.GetStringValue("Naam")
-                        };
-                        resultList.Add(project);
+                        resultList.Add(MapToProject(reader));
                     }
                     return resultList;
              
                 }
+            }
+        }
+
+        private static Project MapToProject(IDataReader reader)
+        {
+            var project = new Project
+            {
+                _id = reader.GetGuidValue("Id").ToString(),
+                Identificatie = reader.GetStringValue("identificatie"),
+                Omschrijving = reader.GetStringValue("omschrijving"),
+                ProjectType = MapProjectType(reader),
+                Programmatie = MapProgrammatie(reader),
+                Status = reader.GetStringValue("Naam")
+            };
+            return project;
+        }
+
+        private static string MapProgrammatie(IDataReader reader)
+        {
+            var huidigeFase = reader.GetIntValue("programmatiefase");
+            var volgendeFase = reader.GetIntValue("volgendeprogrammatiefase");
+            var bevestigd = reader.GetBooleanValue("isbevestigd");
+            var programmatie = string.Format("{0} {1} {2}", huidigeFase, volgendeFase, bevestigd ? "bevestigd" : "voorgesteld");
+            return programmatie;
+        }
+
+        private static string MapProjectType(IDataReader reader)
+        {
+            var value = reader.GetStringValue("projecttype");
+            switch (value)
+            {
+                case "B": return "bouw";
+                case "I": return "infrastructuur";
+                case "G": return "grond";
+                default:  return value;
             }
         }
 

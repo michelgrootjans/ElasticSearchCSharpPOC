@@ -27,7 +27,7 @@ namespace ElasticSearch.POC.ConsoleApp
                 .Facets(facets => facets
                     .Terms(t => t.FacetName("Projecttypes").Field("ProjectType"))
                     .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase"))
-//                    .Terms(t => t.FacetName("Status").Field("Status"))
+                    .Terms(t => t.FacetName("Status").Field("Status"))
                     )
                 .BuildBeautified();
 
