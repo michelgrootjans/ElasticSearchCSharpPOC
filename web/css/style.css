@@ -34,12 +34,17 @@
 .main {
     margin-left: 200px;
 }
+#paging {
+  padding: 2px;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
 #paging a.page{
   padding: 2px;
 }
 
 .search-result{
-  margin: 10px;
+  margin: 10px 0px;
   border-left: 1px solid #cccccc;
   padding-left: 10px;
 }
