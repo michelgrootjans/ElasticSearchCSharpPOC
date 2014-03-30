@@ -35,9 +35,9 @@ function execute_search(client){
               }
             },
             facets: {
-              'projecttypes': { terms: { field: 'ProjectType', size: 100 } },
-              'programmatie': { terms: { field: 'Programmatie', size: 100 } },
-              'status': { terms: { field: 'Status', size: 100 } },
+              'projecttypes': { terms: { field: 'ProjectType' } },
+              'programmatie': { terms: { field: 'Programmatie' } },
+              'status': { terms: { field: 'Status' } },
             }
           }
   }).then(function(body) {
