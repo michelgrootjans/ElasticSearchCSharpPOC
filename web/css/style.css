@@ -28,11 +28,11 @@
 }
 
 .side {
-    width: 15%;
+    width: 200px;
     float: left;
 }
 .main {
-    margin-left: 15%;
+    margin-left: 200px;
 }
 #paging a.page{
   padding: 2px;

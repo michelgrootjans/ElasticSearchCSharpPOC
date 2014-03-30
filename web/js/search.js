@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   var client = new $.es.Client({
-    hosts: ['localhost:9200'],
+    hosts: ['192.168.1.109:9200'],
     log: 'trace'
   });
 
@@ -17,9 +17,10 @@ function execute_search(client){
 
   var results = $('<ul/>');
   var facets_element  = $('<ul/>');
+  var search_resluts_title = $('<h3/>').append('Search Results');
 
   $('#q').val(q);
-  $('#search_results').html('').append(results);
+  $('#search_results').html(search_resluts_title).append(results);
   $('#facets').html('').append(facets_element);
   $('#paging').html('');
 
@@ -35,11 +36,14 @@ function execute_search(client){
             },
             facets: {
               'projecttypes': { terms: { field: 'ProjectType', size: 100 } },
-              'programmatie': { terms: { field: 'HuidigeProgrammatiefase', size: 100 } },
+              'programmatie': { terms: { field: 'Programmatie', size: 100 } },
+              'status': { terms: { field: 'Status', size: 100 } },
             }
           }
   }).then(function(body) {
-    console.log('displaying ' + body.hits.hits.length + ' results')
+    console.log('displaying ' + body.hits.total + ' results');
+    console.log(body);
+    search_resluts_title.append(' (' + body.hits.total + ')')
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
@@ -49,6 +53,10 @@ function execute_search(client){
     });
     facets_element.append($('<h3/>').html('Programmatie'));
     body.facets.programmatie.terms.forEach(function(facet){
+      facets_element.append(display_facet(facet));
+    });
+    facets_element.append($('<h3/>').html('Status'));
+    body.facets.status.terms.forEach(function(facet){
       facets_element.append(display_facet(facet));
     });
 
