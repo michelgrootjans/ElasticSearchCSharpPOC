@@ -52,7 +52,7 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    facets_element.append($('<h3/>').html('Projecttypes'));
+    facets_element.append($('<h3/>').html('Projecttype'));
     body.facets.projecttypes.terms.forEach(function(facet){
       facets_element.append(display_facet(facet, 'projecttype'));
     });
