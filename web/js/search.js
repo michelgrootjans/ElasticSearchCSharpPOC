@@ -11,7 +11,7 @@ $(document).ready(function(){
 });
 
 function execute_search(client){
-  var q = $.querystring('q');
+  var q =  escapeHtml($.querystring('q'));
   var perPage = $.querystring('per_page') || 20;
   var pageNum = $.querystring('page') || 0;
 
@@ -19,7 +19,7 @@ function execute_search(client){
   var facets_element  = $('<ul/>');
   var search_resluts_title = $('<h3/>').append('Search Results');
 
-  $('#q').val(q);
+  $('#q').val($.querystring('q'));
   $('#search_results').html(search_resluts_title).append(results);
   $('#facets').html('').append(facets_element);
   $('#paging').html('');
@@ -130,3 +130,17 @@ function display_facet(facet){
   return json2html.transform(facet, transform)
 }
 
+var entityMap = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': '&quot;',
+  "'": '&#39;',
+  "/": '&#x2F;'
+};
+
+function escapeHtml(string) {
+  return String(string).replace(/[&<>"'\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
