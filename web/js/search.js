@@ -16,7 +16,7 @@ function execute_search(client){
   var pageNum = $.querystring('page') || 0;
 
   var results = $('<div/>').addClass("search-results");
-  var facets_element  = $('<ul/>');
+  var facets_element  = $('<div/>');
   var search_resluts_title = $('<h3/>').append('Search Results');
 
   $('#q').val($.querystring('q'));
@@ -35,9 +35,11 @@ function execute_search(client){
               }
             },
             facets: {
-              'projecttypes': { terms: { field: 'ProjectType' } },
-              'programmatie': { terms: { field: 'Programmatie', order: "count" } },
-              'status': { terms: { field: 'Status', order: "count" } },
+              'projecttypes': { 
+                terms: { field: 'ProjectType', all_terms: true, order: 'count' }
+              },
+              'programmatie': { terms: { field: 'Programmatie', order: 'count' } },
+              'status': { terms: { field: 'Status', order: 'count' } },
             },
             highlight: {
               fields: {"Omschrijving": {}}
@@ -52,15 +54,15 @@ function execute_search(client){
     });
     facets_element.append($('<h3/>').html('Projecttypes'));
     body.facets.projecttypes.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet));
+      facets_element.append(display_facet(facet, 'projecttype'));
     });
     facets_element.append($('<h3/>').html('Programmatie'));
     body.facets.programmatie.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet));
+      facets_element.append(display_facet(facet, 'programmatie'));
     });
     facets_element.append($('<h3/>').html('Status'));
     body.facets.status.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet));
+      facets_element.append(display_facet(facet, 'status'));
     });
 
     display_paging(body.hits.total, pageNum, perPage);
@@ -140,9 +142,12 @@ function getHighlights(item){
   }
 }
 
-function display_facet(facet){
-  var transform = { 'tag': 'li', 'html': '${term} (${count})'};
-  return json2html.transform(facet, transform)
+function display_facet(facet, type){
+  var transform = { 'tag': 'a', 'html': '${term} (${count})'};
+  var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
+  if(facet.term == $.querystring(type))
+    link.addClass('current');
+  return $('<div/>').addClass('facet').append(link);
 }
 
 var entityMap = {
