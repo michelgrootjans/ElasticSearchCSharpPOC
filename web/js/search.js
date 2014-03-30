@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
-  var perPage = $.querystring('per_page') || 20;
+  var perPage = $.querystring('per_page') || 10;
   var pageNum = $.querystring('page') || 0;
 
   var results = $('<div/>').addClass("search-results");
@@ -109,9 +109,8 @@ function display_paging(total_number_of_records, page_num, per_page){
 }
 
 function url_with(param, value){
-  var current_location = window.location;
-  var current_href = current_location.href.replace(current_location.search, '');
-  return window.location.href + "&" + param + "=" + value;
+  var current_location = window.location.href;
+  return updateQueryStringParameter(current_location, param, value);
 }
 
 function notify(error_type, message){
@@ -156,4 +155,15 @@ function escapeHtml(string) {
   return String(string).replace(/[&<>"'\/]/g, function (s) {
     return entityMap[s];
   });
+}
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
 }
