@@ -26,6 +26,13 @@ namespace ElasticSearch.POC.ConsoleApp
             return (int)value;
         }
 
+        public static bool GetBooleanValue(this IDataReader reader, string key)
+        {
+            var value = reader[key];
+            if (value is DBNull) return false;
+            return (bool)value;
+        }
+
 //        public static string GetDateValue(this IDataReader reader, string key, string format = "dd/MM/yyyy")
 //        {
 //            var value = reader[key];

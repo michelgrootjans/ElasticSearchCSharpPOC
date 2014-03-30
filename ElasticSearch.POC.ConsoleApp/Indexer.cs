@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Microsoft.SqlServer.Server;
 using PlainElastic.Net;
 using PlainElastic.Net.Serialization;
 
@@ -16,6 +15,15 @@ namespace ElasticSearch.POC.ConsoleApp
             index_name = indexName;
         }
 
+        public void Reset()
+        {
+            try
+            {
+                connection.Delete(Commands.Delete(index: index_name));
+            }
+            catch { }
+        }
+
         public void Index(IIndexable indexable)
         {
             var command = Commands.Index(index: index_name, type: indexable.GetType().Name, id: indexable._id);
@@ -29,16 +37,6 @@ namespace ElasticSearch.POC.ConsoleApp
             connection.Post(flushCommand);
         }
 
-        public void Reset()
-        {
-            try
-            {
-                var deleteCommand = Commands.Delete(index: index_name);
-                connection.Delete(deleteCommand);
-            }
-            catch { }
-        }
-
         public void Index<T>(IEnumerable<T> indexables) where T : IIndexable
         {
             var command = Commands.Bulk(index_name, typeof (T).Name);
@@ -49,6 +47,12 @@ namespace ElasticSearch.POC.ConsoleApp
                         (builder, tweet) => builder.Index(data: tweet, id: tweet._id)
             );
             connection.Put(command, bulkJson);
+        }
+
+        public void InitializeWith(string mapping)
+        {
+            connection.Put(new IndexCommand(index: index_name));
+            connection.Put(new PutMappingCommand(index: index_name, type: "project"), mapping);
         }
     }
 }
