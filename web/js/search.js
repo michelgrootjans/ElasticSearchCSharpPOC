@@ -45,7 +45,6 @@ function execute_search(client){
           }
   })
   .then(function(body) {
-    console.log('displaying ' + body.hits.total + ' results');
     console.log(body);
     search_resluts_title.append(' (' + body.hits.total + ')')
     body.hits.hits.forEach(function(item){
@@ -104,6 +103,10 @@ function display_paging(total_number_of_records, page_num, per_page){
 
   for(var page_number=0; page_number < number_of_pages; page_number++){
     var link = $("<a/>").addClass('page').html(page_number).attr('href', url_with('page', page_number));
+
+    if(page_number == $.querystring('page'))
+      link.addClass('current');
+
     $('#paging').append(link);
   }
 }
