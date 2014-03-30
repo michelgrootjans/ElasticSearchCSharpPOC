@@ -3,11 +3,11 @@
 - Explore SearchResult properties for output
 - Add weight to properties
 - When to create a new index
-- Highlight
 
 WIP
 ---
 - Index VMSW database
+- Highlight
 
 Done
 ----
