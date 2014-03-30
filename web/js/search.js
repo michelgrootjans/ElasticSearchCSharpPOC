@@ -36,11 +36,12 @@ function execute_search(client){
             },
             facets: {
               'projecttypes': { terms: { field: 'ProjectType' } },
-              'programmatie': { terms: { field: 'Programmatie' } },
-              'status': { terms: { field: 'Status' } },
+              'programmatie': { terms: { field: 'Programmatie', order: "count" } },
+              'status': { terms: { field: 'Status', order: "count" } },
             }
           }
-  }).then(function(body) {
+  })
+  .then(function(body) {
     console.log('displaying ' + body.hits.total + ' results');
     console.log(body);
     search_resluts_title.append(' (' + body.hits.total + ')')
