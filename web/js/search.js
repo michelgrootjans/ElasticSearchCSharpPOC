@@ -15,7 +15,7 @@ function execute_search(client){
   var perPage = $.querystring('per_page') || 20;
   var pageNum = $.querystring('page') || 0;
 
-  var results = $('<ul/>');
+  var results = $('<div/>').addClass("search-results");
   var facets_element  = $('<ul/>');
   var search_resluts_title = $('<h3/>').append('Search Results');
 
@@ -38,6 +38,9 @@ function execute_search(client){
               'projecttypes': { terms: { field: 'ProjectType' } },
               'programmatie': { terms: { field: 'Programmatie', order: "count" } },
               'status': { terms: { field: 'Status', order: "count" } },
+            },
+            highlight: {
+              fields: {"Omschrijving": {}}
             }
           }
   })
@@ -118,12 +121,21 @@ function notify(error_type, message){
 };
 
 function display_result(item){
-  var transform = { 'tag': 'li' };
+  var transform = { 'tag': 'div', 'class': 'search-result' };
   var score = item._score;
-  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score; }
+  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
-  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score }
+  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' }
   return json2html.transform(item._source, transform)
+}
+
+function getHighlights(item){
+  try{
+    return item.highlight.Omschrijving[0];
+  }
+  catch(e){
+    return "";
+  }
 }
 
 function display_facet(facet){

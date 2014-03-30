@@ -7,11 +7,11 @@
 WIP
 ---
 - Index VMSW database
-- Highlight
 
 Done
 ----
 - Search on all fields
 - Index objects
 - GUID as id
+- Highlight
  

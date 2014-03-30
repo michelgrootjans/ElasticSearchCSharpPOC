@@ -37,3 +37,16 @@
 #paging a.page{
   padding: 2px;
 }
+
+.search-result{
+  margin: 10px;
+  border-left: 1px solid #cccccc;
+  padding-left: 10px;
+}
+
+.highlight{
+  margin-left: 10px;
+}
+.highlight em{
+  background-color: yellow;
+}
