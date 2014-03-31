@@ -11,15 +11,15 @@ $(document).ready(function(){
 });
 
 function execute_search(client){
-  var q = $.querystring('q');
-  var perPage = $.querystring('per_page') || 20;
+  var q =  escapeHtml($.querystring('q'));
+  var perPage = $.querystring('per_page') || 10;
   var pageNum = $.querystring('page') || 0;
 
-  var results = $('<ul/>');
+  var results = $('<div/>').addClass("search-results");
   var facets_element  = $('<ul/>');
   var search_resluts_title = $('<h3/>').append('Search Results');
 
-  $('#q').val(q);
+  $('#q').val($.querystring('q'));
   $('#search_results').html(search_resluts_title).append(results);
   $('#facets').html('').append(facets_element);
   $('#paging').html('');
@@ -35,12 +35,16 @@ function execute_search(client){
               }
             },
             facets: {
-              'projecttypes': { terms: { field: 'ProjectType', size: 100 } },
-              'programmatie': { terms: { field: 'Programmatie', size: 100 } },
-              'status': { terms: { field: 'Status', size: 100 } },
+              'projecttypes': { terms: { field: 'ProjectType' } },
+              'programmatie': { terms: { field: 'Programmatie', order: "count" } },
+              'status': { terms: { field: 'Status', order: "count" } },
+            },
+            highlight: {
+              fields: {"Omschrijving": {}}
             }
           }
-  }).then(function(body) {
+  })
+  .then(function(body) {
     console.log('displaying ' + body.hits.total + ' results');
     console.log(body);
     search_resluts_title.append(' (' + body.hits.total + ')')
@@ -105,9 +109,8 @@ function display_paging(total_number_of_records, page_num, per_page){
 }
 
 function url_with(param, value){
-  var current_location = window.location;
-  var current_href = current_location.href.replace(current_location.search, '');
-  return window.location.href + "&" + param + "=" + value;
+  var current_location = window.location.href;
+  return updateQueryStringParameter(current_location, param, value);
 }
 
 function notify(error_type, message){
@@ -117,12 +120,21 @@ function notify(error_type, message){
 };
 
 function display_result(item){
-  var transform = { 'tag': 'li' };
+  var transform = { 'tag': 'div', 'class': 'search-result' };
   var score = item._score;
-  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score; }
+  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
-  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score }
+  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' }
   return json2html.transform(item._source, transform)
+}
+
+function getHighlights(item){
+  try{
+    return item.highlight.Omschrijving[0];
+  }
+  catch(e){
+    return "";
+  }
 }
 
 function display_facet(facet){
@@ -130,3 +142,28 @@ function display_facet(facet){
   return json2html.transform(facet, transform)
 }
 
+var entityMap = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': '&quot;',
+  "'": '&#39;',
+  "/": '&#x2F;'
+};
+
+function escapeHtml(string) {
+  return String(string).replace(/[&<>"'\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
+}
