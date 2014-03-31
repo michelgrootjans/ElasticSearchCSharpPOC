@@ -23,7 +23,7 @@ namespace ElasticSearch.POC.ConsoleApp
         {
             var value = reader[key];
             if (value is DBNull) return 0;
-            return (int)value;
+            return int.Parse(value.ToString());
         }
 
         public static bool GetBooleanValue(this IDataReader reader, string key)

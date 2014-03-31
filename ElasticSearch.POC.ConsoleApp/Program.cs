@@ -18,14 +18,14 @@ namespace ElasticSearch.POC.ConsoleApp
 
             indexer.Flush();
 
-//            while (true)
-//            {
-//                Console.WriteLine("************************************************");
-//                Console.WriteLine("What do you want to query? (type 'exit' to exit)");
-//                Console.WriteLine("************************************************");
-//
-//                queryExecutor.Query(Console.ReadLine());
-//            }
+            while (true)
+            {
+                Console.WriteLine("************************************************");
+                Console.WriteLine("What do you want to query? (type 'exit' to exit)");
+                Console.WriteLine("************************************************");
+
+                queryExecutor.Query(Console.ReadLine());
+            }
         }
 
         private static void IndexDummyData(Indexer indexer)
