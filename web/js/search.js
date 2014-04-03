@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   var client = new $.es.Client({
-    hosts: ['192.168.1.109:9200'],
+    hosts: ['localhost:9200'],
     log: 'trace'
   });
 
