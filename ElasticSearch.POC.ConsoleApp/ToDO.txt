@@ -6,10 +6,11 @@
 
 WIP
 ---
-- Index VMSW database
+- drilldown with facets
 
 Done
 ----
+- Index VMSW database
 - Search on all fields
 - Index objects
 - GUID as id
