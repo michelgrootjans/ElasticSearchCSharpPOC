@@ -34,13 +34,16 @@ function execute_search(client){
                 query: q
               }
             },
+            filter: { and: [getFilter()] },
             facets: {
-              'projecttype': { 
-                terms: { field: 'ProjectType', all_terms: true, order: 'count' },
-                facet_filter: getFacetFilter('projecttype', 'ProjectType')
+              'ProjectType': { 
+                terms: { field: 'ProjectType', all_terms: true, order: 'count' }
               },
-              'programmatie': { terms: { field: 'Programmatie', order: 'count' } },
-              'status': { terms: { field: 'Status', order: 'count' } },
+              'Programmatie': { 
+                terms: { field: 'Programmatie', order: 'count' }
+              },
+                'Status': { terms: { field: 'Status', order: 'count' }
+              },
             },
             highlight: {
               fields: {"Omschrijving": {}}
@@ -54,16 +57,16 @@ function execute_search(client){
       results.append(display_result(item));
     });
     facets_element.append($('<h3/>').html('Projecttype'));
-    body.facets.projecttype.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'projecttype'));
+    body.facets.ProjectType.terms.forEach(function(facet){
+      facets_element.append(display_facet(facet, 'ProjectType'));
     });
     facets_element.append($('<h3/>').html('Programmatie'));
-    body.facets.programmatie.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'programmatie'));
+    body.facets.Programmatie.terms.forEach(function(facet){
+      facets_element.append(display_facet(facet, 'Programmatie'));
     });
     facets_element.append($('<h3/>').html('Status'));
-    body.facets.status.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'status'));
+    body.facets.Status.terms.forEach(function(facet){
+      facets_element.append(display_facet(facet, 'Status'));
     });
 
     display_paging(body.hits.total, pageNum, perPage);
@@ -72,7 +75,12 @@ function execute_search(client){
   });
 }
 
-function getFacetFilter(facet, field){
+function getFilter(){
+  return {};
+}
+
+//unused method
+function getFacetFilter(field){
   var value = $.querystring(facet);
   if(value == null) return {};
   var filter = { term: {  } };
