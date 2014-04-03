@@ -7,18 +7,14 @@ namespace ElasticSearch.POC.ConsoleApp
 {
     internal class DataAccessLayer
     {
+
         public IEnumerable<Project> GetVmswProjecten()
         {
             using (var connection = CreatePrismaConnection())
             using (var command = connection.CreateCommand())
             {
                 command.CommandType = CommandType.Text;
-                command.CommandText = @"
-                                        select *
-                                        from VMSW_PO_Projecten pj
-                                        left outer join VMSW_PO_ProjectStatussen ps 
-                                                     on ps.Id = pj.StatusID
-                                        ";
+                command.CommandText = getProjectsQuery;
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -33,6 +29,20 @@ namespace ElasticSearch.POC.ConsoleApp
             }
         }
 
+private const string getProjectsQuery = @"
+select pj.id,
+	   pj.Identificatie,
+	   pj.Omschrijving,
+	   pj.ProgrammatieFase,
+	   pj.VolgendeProgrammatieFase,
+	   pj.isbevestigd,
+	   pj.ProjectType,
+	   ps.Naam as 'status',
+	   g.Naam as 'gemeente'
+from VMSW_PO_Projecten pj
+left outer join VMSW_PO_ProjectStatussen ps on ps.Id = pj.StatusID
+left outer join VMSW_GIPR_Gemeentes g on pj.GemeenteID = g.ID
+";
         private static Project MapToProject(IDataReader reader)
         {
             var project = new Project
@@ -42,7 +52,8 @@ namespace ElasticSearch.POC.ConsoleApp
                 Omschrijving = reader.GetStringValue("omschrijving"),
                 ProjectType = MapProjectType(reader),
                 Programmatie = MapProgrammatie(reader),
-                Status = reader.GetStringValue("Naam")
+                Status = reader.GetStringValue("status", "geen status"),
+                Gemeente = reader.GetStringValue("gemeente")
             };
             return project;
         }
@@ -51,7 +62,7 @@ namespace ElasticSearch.POC.ConsoleApp
         {
             var huidigeFase = reader.GetIntValue("programmatiefase");
             var volgendeFase = reader.GetIntValue("volgendeprogrammatiefase");
-            var bevestigd = reader.GetBooleanValue("isbevestigd");
+            var bevestigd = !reader.GetBooleanValue("isbevestigd");
             var programmatie = string.Format("{0} {1} {2}", huidigeFase, volgendeFase, bevestigd ? "bevestigd" : "voorgesteld");
             return programmatie;
         }

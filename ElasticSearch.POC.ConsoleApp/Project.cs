@@ -12,6 +12,7 @@ namespace ElasticSearch.POC.ConsoleApp
         public string Omschrijving { get; set; }
         public string Status { get; set; }
         public string Programmatie { get; set; }
+        public string Gemeente { get; set; }
     }
 
     class ProjectMapper
@@ -25,6 +26,7 @@ namespace ElasticSearch.POC.ConsoleApp
                         .Properties(prop => prop
                             .String(p => p.Status, f => f.Analyzer(DefaultAnalyzers.keyword))
                             .String(p => p.Programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
+                            .String(p => p.Gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
                         )
                 )
                 .BuildBeautified();

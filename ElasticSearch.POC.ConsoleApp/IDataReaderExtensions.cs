@@ -26,10 +26,10 @@ namespace ElasticSearch.POC.ConsoleApp
             return (bool)value;
         }
 
-        public static string GetStringValue(this IDataReader reader, string key)
+        public static string GetStringValue(this IDataReader reader, string key, string @default = "")
         {
             var value = reader[key];
-            if (value is DBNull) return "";
+            if (value is DBNull) return @default;
             return (string)value;
         }
 
