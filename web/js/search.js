@@ -24,6 +24,8 @@ function execute_search(client){
   $('#facets').html('').append(facets_element);
   $('#paging').html('');
 
+  var facets = null;
+
   client.search(
   {
     size: perPage,
@@ -151,24 +153,19 @@ function getHighlights(item){
 }
 
 function display_facets(facets, html_element){
-  display_facet(facets, html_element, 'ProjectType');
-
-    html_element.append($('<h3/>').html('Programmatie'));
-    facets.Programmatie.terms.forEach(function(facet){
-      html_element.append(display_facet_item(facet, 'Programmatie'));
-    });
-    html_element.append($('<h3/>').html('Status'));
-    facets.Status.terms.forEach(function(facet){
-      html_element.append(display_facet_item(facet, 'Status'));
-    });
+  html_element.append(display_facet(facets, 'ProjectType'));
+  html_element.append(display_facet(facets, 'Programmatie'));
+  html_element.append(display_facet(facets, 'Status'));
 }
 
-function display_facet(facets, html_element, facet_name)
+function display_facet(facets, facet_name)
 {
-    html_element.append($('<h3/>').html(facet_name));
-    facets[facet_name].terms.forEach(function(facet){
-      html_element.append(display_facet_item(facet, facet_name));
-    });
+  var result = $('<div/>').addClass('facet');
+  result.append($('<h3/>').html(facet_name));
+  facets[facet_name].terms.forEach(function(facet){
+    result.append(display_facet_item(facet, facet_name));
+  });
+  return result;
 }
 
 function display_facet_item(facet, type){
@@ -176,7 +173,7 @@ function display_facet_item(facet, type){
   var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
   if(facet.term == $.querystring(type))
     link.addClass('current');
-  return $('<div/>').addClass('facet').append(link);
+  return $('<div/>').addClass('facet-value').append(link);
 }
 
 var entityMap = {
