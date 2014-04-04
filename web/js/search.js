@@ -56,18 +56,7 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    facets_element.append($('<h3/>').html('Projecttype'));
-    body.facets.ProjectType.terms.forEach(function(facet){
-      facets_element.append(display_facet_item(facet, 'ProjectType'));
-    });
-    facets_element.append($('<h3/>').html('Programmatie'));
-    body.facets.Programmatie.terms.forEach(function(facet){
-      facets_element.append(display_facet_item(facet, 'Programmatie'));
-    });
-    facets_element.append($('<h3/>').html('Status'));
-    body.facets.Status.terms.forEach(function(facet){
-      facets_element.append(display_facet_item(facet, 'Status'));
-    });
+    display_facets(body.facets, facets_element)
 
     display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
@@ -159,6 +148,22 @@ function getHighlights(item){
   catch(e){
     return "";
   }
+}
+
+function display_facets(facets, html_element){
+    html_element.append($('<h3/>').html('Projecttype'));
+    facets.ProjectType.terms.forEach(function(facet){
+      html_element.append(display_facet_item(facet, 'ProjectType'));
+    });
+    html_element.append($('<h3/>').html('Programmatie'));
+    facets.Programmatie.terms.forEach(function(facet){
+      html_element.append(display_facet_item(facet, 'Programmatie'));
+    });
+    html_element.append($('<h3/>').html('Status'));
+    facets.Status.terms.forEach(function(facet){
+      html_element.append(display_facet_item(facet, 'Status'));
+    });
+
 }
 
 function display_facet_item(facet, type){
