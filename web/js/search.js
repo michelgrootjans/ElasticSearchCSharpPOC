@@ -154,9 +154,13 @@ function getHighlights(item){
 }
 
 function display_facets(facets, facets_query){
-  return $('<div/>').append(display_facet(facets, 'ProjectType'))
-                    .append(display_facet(facets, 'Programmatie'))
-                    .append(display_facet(facets, 'Status'));
+  var result = $('<div/>');
+  for(var facet_name in facets){
+    if(facets.hasOwnProperty(facet_name)){
+      result.append(display_facet(facets, facet_name));
+    }
+  }
+  return result;
 }
 
 function display_facet(facets, facet_name)
