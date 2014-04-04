@@ -35,17 +35,17 @@ function execute_search(client){
             },
             filter: { and: [getFilter()] },
             facets: {
-              ProjectType: { 
-                terms: { field: 'ProjectType', all_terms: true, order: 'count' }
+              project_type: { 
+                terms: { field: 'project_type', all_terms: true, order: 'count' }
               },
-              Programmatie: { 
-                terms: { field: 'Programmatie', order: 'count' }
+              programmatie: { 
+                terms: { field: 'programmatie', order: 'count' }
               },
-                Status: { terms: { field: 'Status', order: 'count' }
+                status: { terms: { field: 'status', order: 'count' }
               },
             },
             highlight: {
-              fields: {"Omschrijving": {}}
+              fields: {"omschrijving": {}}
             }
           }
   })
@@ -64,6 +64,7 @@ function execute_search(client){
 }
 
 function getFilter(){
+  //this is the place where selected facets will be filtered
   return {};
 }
 
@@ -74,20 +75,6 @@ function getFacetFilter(field){
   var filter = { term: {  } };
   filter.term[field] = value;
   return filter;
-}
-
-
-function simple_search(client, query, output_element){
-  var list = $('<ul/>');
-  output_element.append(list);
-  client.search({q: query})
-        .then(function(body){
-          body.hits.hits.forEach(function(item){
-            list.append(display(item));
-          });
-        }, function(error){
-          notify('error', error.message);
-        });
 }
 
 function ping(client){
@@ -137,14 +124,14 @@ function display_result(item){
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
   if(item._type == 'project') { 
-    transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' 
+    transform.html = "${identificatie}: '${omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' 
   }
   return json2html.transform(item._source, transform)
 }
 
 function getHighlights(item){
   try{
-    return item.highlight.Omschrijving[0];
+    return item.highlight.omschrijving[0];
   }
   catch(e){
     return "";
@@ -163,7 +150,7 @@ function display_facets(facets){
 
 function display_facet(facet_name, facet)
 {
-  var result = $('<div/>').addClass('facet');
+  var result = $('<div/>').addClass('facet').addClass(facet_name);
   result.append($('<h3/>').html(facet_name));
   facet.terms.forEach(function(facet){
     result.append(display_facet_item(facet, facet_name));
@@ -172,11 +159,12 @@ function display_facet(facet_name, facet)
 }
 
 function display_facet_item(facet, type){
+  var result = $('<div/>');
   var transform = { 'tag': 'a', 'html': '${term} (${count})'};
   var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
   if(facet.term == $.querystring(type))
-    link.addClass('current');
-  return $('<div/>').addClass('facet-value').append(link);
+    result.addClass('current');
+  return result.addClass('facet-value').append(link);
 }
 
 var entityMap = {

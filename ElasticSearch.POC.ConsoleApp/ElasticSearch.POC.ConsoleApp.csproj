@@ -51,7 +51,7 @@
     <Compile Include="DataAccessLayer.cs" />
     <Compile Include="IDataReaderExtensions.cs" />
     <Compile Include="Indexer.cs" />
-    <Compile Include="Project.cs" />
+    <Compile Include="Indexables\Project.cs" />
     <Compile Include="QueryExecutor.cs" />
     <Compile Include="IIndexable.cs" />
     <Compile Include="Indexables\Tweet.cs" />

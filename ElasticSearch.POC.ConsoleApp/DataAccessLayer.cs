@@ -29,13 +29,13 @@ namespace ElasticSearch.POC.ConsoleApp
         }
 
 private const string getProjectsQuery = @"
-select pj.id,
+select pj.Id,
 	   pj.Identificatie,
 	   pj.Omschrijving,
 	   pj.ProgrammatieFase,
 	   pj.VolgendeProgrammatieFase,
 	   pj.isbevestigd,
-	   pj.ProjectType,
+	   pj.projectType,
 	   ps.Naam as 'status',
 	   g.Naam as 'gemeente'
 from VMSW_PO_Projecten pj
@@ -47,12 +47,12 @@ left outer join VMSW_GIPR_Gemeentes g on pj.GemeenteID = g.ID
             var project = new Project
             {
                 _id = reader.GetGuidValue("Id").ToString(),
-                Identificatie = reader.GetStringValue("identificatie"),
-                Omschrijving = reader.GetStringValue("omschrijving"),
-                ProjectType = MapProjectType(reader),
-                Programmatie = MapProgrammatie(reader),
-                Status = reader.GetStringValue("status", "geen status"),
-                Gemeente = reader.GetStringValue("gemeente")
+                identificatie = reader.GetStringValue("identificatie"),
+                omschrijving = reader.GetStringValue("omschrijving"),
+                project_type = MapProjectType(reader),
+                programmatie = MapProgrammatie(reader),
+                status = reader.GetStringValue("status", "geen status"),
+                gemeente = reader.GetStringValue("gemeente")
             };
             return project;
         }

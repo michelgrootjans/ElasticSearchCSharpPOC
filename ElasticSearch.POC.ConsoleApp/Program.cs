@@ -11,12 +11,12 @@ namespace ElasticSearch.POC.ConsoleApp
             var connection = new ElasticConnection("localhost");
 
             IndexVmswData(connection);
-//            while (true)
-//            {
-//                var result = QueryData(connection);
-//                PrintResult(result);
-//                ParseResult(result);
-//            }
+            while (true)
+            {
+                var result = QueryData(connection);
+                PrintResult(result);
+                ParseResult(result);
+            }
         }
 
         private static void IndexVmswData(ElasticConnection connection)

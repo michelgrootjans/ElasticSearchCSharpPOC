@@ -25,9 +25,9 @@ namespace ElasticSearch.POC.ConsoleApp
                         .Fields("_all")
                         .Query(queryString)))
                 .Facets(facets => facets
-                    .Terms(t => t.FacetName("Projecttypes").Field("ProjectType"))
+                    .Terms(t => t.FacetName("Projecttypes").Field("project_type"))
                     .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase"))
-                    .Terms(t => t.FacetName("Status").Field("Status"))
+                    .Terms(t => t.FacetName("status").Field("status"))
                     )
                 .BuildBeautified();
             Console.WriteLine("Query:");
