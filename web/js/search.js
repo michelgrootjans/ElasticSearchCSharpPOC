@@ -7,7 +7,6 @@ $(document).ready(function(){
 
   ping(client);
   execute_search(client);
-
 });
 
 function execute_search(client){
@@ -41,8 +40,9 @@ function execute_search(client){
               programmatie: { 
                 terms: { field: 'programmatie', order: 'count' }
               },
-                status: { terms: { field: 'status', order: 'count' }
-              },
+              status: {
+                terms: { field: 'status', order: 'count' }
+              }
             },
             highlight: {
               fields: {"omschrijving": {}}
@@ -65,7 +65,7 @@ function execute_search(client){
 
 function getFilter(){
   //this is the place where selected facets will be filtered
-  return {};
+  return { term: { project_type: 'bouw' } };
 }
 
 //unused method
