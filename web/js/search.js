@@ -23,7 +23,16 @@ function execute_search(client){
   $('#search_results').html(search_resluts_title).append(results);
   $('#paging').html('');
 
-  var facets = null;
+  var facets_query = {
+                  'ProjectType': { 
+                    terms: { field: 'ProjectType', all_terms: true, order: 'count' }
+                  },
+                  'Programmatie': { 
+                    terms: { field: 'Programmatie', order: 'count' }
+                  },
+                    'Status': { terms: { field: 'Status', order: 'count' }
+                  },
+                };
 
   client.search(
   {
@@ -36,16 +45,7 @@ function execute_search(client){
               }
             },
             filter: { and: [getFilter()] },
-            facets: {
-              'ProjectType': { 
-                terms: { field: 'ProjectType', all_terms: true, order: 'count' }
-              },
-              'Programmatie': { 
-                terms: { field: 'Programmatie', order: 'count' }
-              },
-                'Status': { terms: { field: 'Status', order: 'count' }
-              },
-            },
+            facets: facets_query,
             highlight: {
               fields: {"Omschrijving": {}}
             }
