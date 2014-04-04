@@ -23,17 +23,6 @@ function execute_search(client){
   $('#search_results').html(search_resluts_title).append(results);
   $('#paging').html('');
 
-  var facets_query = {
-                  ProjectType: { 
-                    terms: { field: 'ProjectType', all_terms: true, order: 'count' }
-                  },
-                  Programmatie: { 
-                    terms: { field: 'Programmatie', order: 'count' }
-                  },
-                    Status: { terms: { field: 'Status', order: 'count' }
-                  },
-                };
-
   client.search(
   {
     size: perPage,
@@ -66,7 +55,7 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    $('#facets').html('').append(display_facets(body.facets, facets_query));
+    $('#facets').html('').append(display_facets(body.facets));
 
     display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
@@ -162,7 +151,7 @@ function getHighlights(item){
   }
 }
 
-function display_facets(facets, facets_query){
+function display_facets(facets){
   var result = $('<div/>');
   for(var facet_name in facets){
     if(facets.hasOwnProperty(facet_name)){
