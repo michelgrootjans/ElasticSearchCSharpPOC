@@ -58,15 +58,15 @@ function execute_search(client){
     });
     facets_element.append($('<h3/>').html('Projecttype'));
     body.facets.ProjectType.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'ProjectType'));
+      facets_element.append(display_facet_item(facet, 'ProjectType'));
     });
     facets_element.append($('<h3/>').html('Programmatie'));
     body.facets.Programmatie.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'Programmatie'));
+      facets_element.append(display_facet_item(facet, 'Programmatie'));
     });
     facets_element.append($('<h3/>').html('Status'));
     body.facets.Status.terms.forEach(function(facet){
-      facets_element.append(display_facet(facet, 'Status'));
+      facets_element.append(display_facet_item(facet, 'Status'));
     });
 
     display_paging(body.hits.total, pageNum, perPage);
@@ -161,7 +161,7 @@ function getHighlights(item){
   }
 }
 
-function display_facet(facet, type){
+function display_facet_item(facet, type){
   var transform = { 'tag': 'a', 'html': '${term} (${count})'};
   var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
   if(facet.term == $.querystring(type))
