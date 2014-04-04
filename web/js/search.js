@@ -151,10 +151,8 @@ function getHighlights(item){
 }
 
 function display_facets(facets, html_element){
-    html_element.append($('<h3/>').html('Projecttype'));
-    facets.ProjectType.terms.forEach(function(facet){
-      html_element.append(display_facet_item(facet, 'ProjectType'));
-    });
+  display_facet(facets, html_element, 'ProjectType');
+
     html_element.append($('<h3/>').html('Programmatie'));
     facets.Programmatie.terms.forEach(function(facet){
       html_element.append(display_facet_item(facet, 'Programmatie'));
@@ -163,7 +161,14 @@ function display_facets(facets, html_element){
     facets.Status.terms.forEach(function(facet){
       html_element.append(display_facet_item(facet, 'Status'));
     });
+}
 
+function display_facet(facets, html_element, facet_name)
+{
+    html_element.append($('<h3/>').html(facet_name));
+    facets[facet_name].terms.forEach(function(facet){
+      html_element.append(display_facet_item(facet, facet_name));
+    });
 }
 
 function display_facet_item(facet, type){
