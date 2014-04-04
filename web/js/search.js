@@ -21,7 +21,6 @@ function execute_search(client){
 
   $('#q').val($.querystring('q'));
   $('#search_results').html(search_resluts_title).append(results);
-  $('#facets').html('').append(facets_element);
   $('#paging').html('');
 
   var facets = null;
@@ -58,7 +57,7 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    display_facets(body.facets, facets_element)
+    $('#facets').html('').append(display_facets(body.facets));
 
     display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
@@ -139,7 +138,9 @@ function display_result(item){
   var score = item._score;
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
   if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
-  if(item._type == 'project') { transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' }
+  if(item._type == 'project') { 
+    transform.html = "${Identificatie}: '${Omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' 
+  }
   return json2html.transform(item._source, transform)
 }
 
@@ -153,9 +154,9 @@ function getHighlights(item){
 }
 
 function display_facets(facets, html_element){
-  html_element.append(display_facet(facets, 'ProjectType'));
-  html_element.append(display_facet(facets, 'Programmatie'));
-  html_element.append(display_facet(facets, 'Status'));
+  return $('<div/>').append(display_facet(facets, 'ProjectType'))
+                    .append(display_facet(facets, 'Programmatie'))
+                    .append(display_facet(facets, 'Status'));
 }
 
 function display_facet(facets, facet_name)
