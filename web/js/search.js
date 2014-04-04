@@ -157,17 +157,17 @@ function display_facets(facets, facets_query){
   var result = $('<div/>');
   for(var facet_name in facets){
     if(facets.hasOwnProperty(facet_name)){
-      result.append(display_facet(facets, facet_name));
+      result.append(display_facet(facet_name, facets[facet_name]));
     }
   }
   return result;
 }
 
-function display_facet(facets, facet_name)
+function display_facet(facet_name, facet)
 {
   var result = $('<div/>').addClass('facet');
   result.append($('<h3/>').html(facet_name));
-  facets[facet_name].terms.forEach(function(facet){
+  facet.terms.forEach(function(facet){
     result.append(display_facet_item(facet, facet_name));
   });
   return result;
