@@ -49,10 +49,23 @@ namespace ElasticSearch.POC.ConsoleApp
             connection.Put(command, bulkJson);
         }
 
-        public void InitializeWith(string mapping)
+        public void InitializeWith(string type, string mapping)
         {
             connection.Put(new IndexCommand(index: index_name));
-            connection.Put(new PutMappingCommand(index: index_name, type: "project"), mapping);
+            connection.Put(new PutMappingCommand(index: index_name, type: type), mapping);
         }
+
+        public void InitializeWith(params ITypeMapper[] mappers)
+        {
+            connection.Put(new IndexCommand(index: index_name));
+            foreach (var mapper in mappers)
+                connection.Put(new PutMappingCommand(index: index_name, type: mapper.TypeName), mapper.Mapping);
+        }
+    }
+
+    internal interface ITypeMapper
+    {
+        string TypeName { get; }
+        string Mapping { get; }
     }
 }

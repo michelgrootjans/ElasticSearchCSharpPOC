@@ -1,5 +1,5 @@
 ﻿using System;
-using ElasticSearch.POC.ConsoleApp.Indexables;
+using JsonFx.Json;
 using PlainElastic.Net;
 
 namespace ElasticSearch.POC.ConsoleApp
@@ -9,44 +9,55 @@ namespace ElasticSearch.POC.ConsoleApp
         static void Main(string[] args)
         {
             var connection = new ElasticConnection("localhost");
-            var indexer = new Indexer(connection, "prisma");
-            var queryExecutor = new QueryExecutor(connection, "prisma");
 
-            indexer.Reset();
-            indexer.InitializeWith(new ProjectMapper().Mapping());
-            IndexVmswData(indexer);
-
-            indexer.Flush();
-
+            IndexVmswData(connection);
             while (true)
             {
-                Console.WriteLine("************************************************");
-                Console.WriteLine("What do you want to query? (type 'exit' to exit)");
-                Console.WriteLine("************************************************");
-
-                queryExecutor.Query(Console.ReadLine());
+                QueryData(connection);
             }
         }
 
-        private static void IndexDummyData(Indexer indexer)
+        private static void QueryData(ElasticConnection connection)
         {
-            indexer.Index(new User {FirstName = "Michel", LastName = "Grootjans"});
-            indexer.Index(new Tweet {UserName = "michelgrootjans", Text = "Ik schrijf een elasticsearch POC"});
+            Console.WriteLine("************************************************");
+            Console.WriteLine("What do you want to query? (type 'exit' to exit)");
+            Console.WriteLine("************************************************");
 
-            indexer.Index(new User {FirstName = "Bill", LastName = "Gates"});
-            indexer.Index(new Tweet {UserName = "billgates", Text = "Damn you steve, your phone is more succesful than mine"});
+            var queryExecutor = new QueryExecutor(connection, "prisma");
+            var result = queryExecutor.Query(Console.ReadLine());
 
-            indexer.Index(new User {FirstName = "Steve", LastName = "Jobs"});
-            indexer.Index(new Tweet { UserName = "stevejobs", Text = "Famous last words: wait 'till you see the iPhone 7" });
-
-            indexer.Index(new User {FirstName = "Barak", LastName = "Obama"});
-            indexer.Index(new User {FirstName = "Michele", LastName = "Obama"});
+            PrintResult(result);
+            ParseResult(result);
         }
 
-        private static void IndexVmswData(Indexer indexer)
+        private static void ParseResult(string result)
         {
+            Console.WriteLine("Parsing:");
+            Console.WriteLine("*******");
+            var reader = new JsonReader();
+            dynamic dynamicResult = reader.Read(result);
+            Console.WriteLine("{0} results", dynamicResult.hits.total);
+            foreach (var hit in dynamicResult.hits.hits)
+            {
+                Console.WriteLine("{0} - {1}", hit._source.Identificatie, hit._source.Omschrijving);
+            }
+        }
+
+        private static void PrintResult(string result)
+        {
+            Console.WriteLine("Result:");
+            Console.WriteLine("*******");
+            Console.WriteLine(result);
+        }
+
+        private static void IndexVmswData(ElasticConnection connection)
+        {
+            var indexer = new Indexer(connection, "prisma");
+            indexer.Reset();
+            indexer.InitializeWith(new ProjectMapper());
             var projecten = new DataAccessLayer().GetVmswProjecten();
             indexer.Index(projecten);
+            indexer.Flush();
         }
     }
 }

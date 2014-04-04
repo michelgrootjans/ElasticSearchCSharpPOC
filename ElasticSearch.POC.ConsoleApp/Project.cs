@@ -1,5 +1,4 @@
-﻿using System;
-using PlainElastic.Net;
+﻿using PlainElastic.Net;
 using PlainElastic.Net.Mappings;
 
 namespace ElasticSearch.POC.ConsoleApp
@@ -15,21 +14,26 @@ namespace ElasticSearch.POC.ConsoleApp
         public string Gemeente { get; set; }
     }
 
-    class ProjectMapper
+    class ProjectMapper : ITypeMapper
     {
-        public string Mapping()
+        public string TypeName { get { return "project"; } }
+
+        public string Mapping
         {
-            return new MapBuilder<Project>()
-                .RootObject(
-                    typeName: "project",
-                    map: r => r
-                        .Properties(prop => prop
-                            .String(p => p.Status, f => f.Analyzer(DefaultAnalyzers.keyword))
-                            .String(p => p.Programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
-                            .String(p => p.Gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
-                        )
-                )
-                .BuildBeautified();
+            get
+            {
+                return new MapBuilder<Project>()
+                    .RootObject(
+                        typeName: TypeName,
+                        map: r => r
+                            .Properties(prop => prop
+                                .String(p => p.Status, f => f.Analyzer(DefaultAnalyzers.keyword))
+                                .String(p => p.Programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
+                                .String(p => p.Gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
+                            )
+                    )
+                    .BuildBeautified();
+            }
         }
     }
 }

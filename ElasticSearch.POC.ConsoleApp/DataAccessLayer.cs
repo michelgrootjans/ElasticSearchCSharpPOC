@@ -24,7 +24,6 @@ namespace ElasticSearch.POC.ConsoleApp
                         resultList.Add(MapToProject(reader));
                     }
                     return resultList;
-             
                 }
             }
         }

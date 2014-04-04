@@ -1,5 +1,5 @@
 ﻿using System;
-using ElasticSearch.POC.ConsoleApp.Indexables;
+using JsonFx.Json;
 using PlainElastic.Net;
 using PlainElastic.Net.Queries;
 using PlainElastic.Net.Utils;
@@ -17,9 +17,9 @@ namespace ElasticSearch.POC.ConsoleApp
             index_name = indexName;
         }
 
-        public void Query(string queryString)
+        public string Query(string queryString)
         {
-            var query = new QueryBuilder<User>()
+            var query = new QueryBuilder<object>()
                 .Query(q => q
                     .QueryString(qs => qs
                         .Fields("_all")
@@ -30,12 +30,15 @@ namespace ElasticSearch.POC.ConsoleApp
                     .Terms(t => t.FacetName("Status").Field("Status"))
                     )
                 .BuildBeautified();
-
+            Console.WriteLine("Query:");
+            Console.WriteLine("******");
             Console.WriteLine(query);
+            Console.WriteLine();
 
-            var result = connection.Post(Commands.Search(index_name), query);
-            Console.WriteLine(result.Result.BeautifyJson());
+            var result = connection.Post(Commands.Search(index_name), query).Result.BeautifyJson();
 
+
+            return result;
         }
     }
 }
