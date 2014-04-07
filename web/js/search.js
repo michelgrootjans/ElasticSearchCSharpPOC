@@ -67,6 +67,7 @@ function getFilter(){
   //this is the place where selected facets will be filtered from the hits
   var result = [];
   getFacetFilter(result, 'project_type');
+  getFacetFilter(result, 'programmatie');
   getFacetFilter(result, 'status');
   if (result.length == 0)
     result.push({});
