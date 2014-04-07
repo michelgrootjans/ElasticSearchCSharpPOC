@@ -32,7 +32,7 @@ function execute_search(client){
                 query: q
               }
             },
-            filter: { and: [getFilter()] },
+            filter: { and: getFilter() },
             facets: {
               project_type: { 
                 terms: { field: 'project_type', all_terms: true, order: 'count' }
@@ -64,20 +64,20 @@ function execute_search(client){
 }
 
 function getFilter(){
-  //this is the place where selected facets will be filtered
-  var result = {};
-  if($.querystring('project_type'))
-    result['term'] = { 'project_type': $.querystring('project_type') }
+  //this is the place where selected facets will be filtered from the hits
+  var result = [];
+  getFacetFilter(result, 'project_type');
   return result;
 }
 
 //unused method
-function getFacetFilter(field){
-  var value = $.querystring(facet);
-  if(value == null) return {};
-  var filter = { term: {  } };
-  filter.term[field] = value;
-  return filter;
+function getFacetFilter(result, facet_field){
+  var value = $.querystring(facet_field);
+  if(value == null) return;
+
+  var filter = { term: {}};
+  filter.term[facet_field] = value
+  result.push(filter);
 }
 
 function ping(client){
