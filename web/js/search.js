@@ -65,7 +65,10 @@ function execute_search(client){
 
 function getFilter(){
   //this is the place where selected facets will be filtered
-  return { term: { project_type: 'bouw' } };
+  var result = {};
+  if($.querystring('project_type'))
+    result['term'] = { 'project_type': $.querystring('project_type') }
+  return result;
 }
 
 //unused method
