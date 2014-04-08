@@ -9,6 +9,16 @@ $(document).ready(function(){
   execute_search(client);
 });
 
+function ping(client){
+  client.ping({ requestTimeout: 2000 }, function(error){
+    if (error){
+      notify('error', 'elasticsearch cluster is down');
+    } else {
+      notify('success', 'elasticsearch cluster is up');
+    }
+  });
+}
+
 function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
   var perPage = $.querystring('per_page') || 10;
@@ -82,20 +92,6 @@ function getFacetFilter(result, facet_field){
   var filter = { term: {}};
   filter.term[facet_field] = value
   result.push(filter);
-}
-
-function ping(client){
-  client.ping({
-      requestTimeout: 2000,
-      hello: "elasticsearch!"
-    }, function(error){
-      if (error){
-        notify('error', 'elasticsearch cluster is down');
-      } else {
-        notify('success', 'elasticsearch cluster is up');
-      }
-    }
-  );
 }
 
 function display_paging(total_number_of_records, page_num, per_page){
