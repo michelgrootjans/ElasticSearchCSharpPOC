@@ -42,21 +42,21 @@ function execute_search(client){
                 query: q
               }
             },
-            filter: { and: getFilter() },
-            facets: {
-              project_type: { 
-                terms: { field: 'project_type', all_terms: true, order: 'count' }
-              },
-              programmatie: { 
-                terms: { field: 'programmatie', order: 'count' }
-              },
-              status: {
-                terms: { field: 'status', order: 'count' }
-              }
-            },
-            highlight: {
-              fields: {"omschrijving": {}}
-            }
+            // filter: { and: getFilter() },
+            // facets: {
+              // project_type: { 
+                // terms: { field: 'project_type', all_terms: true, order: 'count' }
+              // },
+              // programmatie: { 
+                // terms: { field: 'programmatie', order: 'count' }
+              // },
+              // status: {
+                // terms: { field: 'status', order: 'count' }
+              // }
+            // },
+            // highlight: {
+              // fields: {"omschrijving": {}}
+            // }
           }
   })
   .then(function(body) {
@@ -65,9 +65,9 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    $('#facets').html('').append(display_facets(body.facets));
+    // $('#facets').html('').append(display_facets(body.facets));
 
-    display_paging(body.hits.total, pageNum, perPage);
+    // display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
     notify('error', error.message);
   });

@@ -6,9 +6,9 @@
   <title>Elastic Search Demo</title>
   
   
-  <link  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+  <link  href="css/jquery-ui.css" rel="stylesheet" />
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
 
   <script src="js/elasticsearch.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/elasticsearch.jquery.js" type="text/javascript" charset="utf-8"></script>
@@ -23,15 +23,15 @@
 </head>
 <body>
   <div id='notifications'></div>
-  <div class="ui-widget"> 
-      <form method='GET' action=''>  
-        <label for="q">search</label> 
-        <input  id="q" id="test" name="q" autofocus /> 
-      </form>
-  </div>
 
   <div id='facets' class='side'></div>
   <div class='main'>
+    <div class="ui-widget"> 
+        <form method='GET' action=''>  
+          <label for="q">search</label> 
+          <input  id="q" id="test" name="q" autofocus /> 
+        </form>
+    </div>
       <div id='search_results'></div>
       <div id='paging'></div>
   </div>

@@ -1,0 +1,1 @@
+curl -XGET 'localhost:9200/amazon/cd,book/_search?q=name:call'
