@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using JsonFx.Json;
 using PlainElastic.Net;
 
@@ -15,7 +16,7 @@ namespace ElasticSearch.POC.ConsoleApp
             {
                 var result = QueryData(connection);
                 PrintResult(result);
-                ParseResult(result);
+//                ParseResult(result);
             }
         }
 
@@ -23,10 +24,12 @@ namespace ElasticSearch.POC.ConsoleApp
         {
             var indexer = new Indexer(connection, "prisma");
             indexer.Reset();
-            indexer.InitializeWith(new ProjectMapper());
+//            indexer.InitializeWith(new ProjectMapper());
             var projecten = new DataAccessLayer().GetVmswProjecten();
+            var start = DateTime.Now;
             indexer.Index(projecten);
             indexer.Flush();
+            Console.WriteLine("Done indexing {0} records - took {1}ms", projecten.Count(), (DateTime.Now - start).TotalMilliseconds);
         }
 
         private static string QueryData(ElasticConnection connection)

@@ -27,9 +27,9 @@ namespace ElasticSearch.POC.ConsoleApp
                         typeName: TypeName,
                         map: r => r
                             .Properties(prop => prop
-                                .String(p => p.status, f => f.Analyzer(DefaultAnalyzers.keyword))
-                                .String(p => p.programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
-                                .String(p => p.gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
+//                                .String(p => p.status, f => f.Analyzer(DefaultAnalyzers.keyword))
+//                                .String(p => p.programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
+//                                .String(p => p.gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
                             )
                     )
                     .BuildBeautified();

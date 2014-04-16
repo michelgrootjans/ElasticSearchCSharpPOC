@@ -24,11 +24,11 @@ namespace ElasticSearch.POC.ConsoleApp
                     .QueryString(qs => qs
                         .Fields("_all")
                         .Query(queryString)))
-                .Facets(facets => facets
-                    .Terms(t => t.FacetName("Projecttypes").Field("project_type"))
-                    .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase"))
-                    .Terms(t => t.FacetName("status").Field("status"))
-                    )
+//                .Facets(facets => facets
+//                    .Terms(t => t.FacetName("Projecttypes").Field("project_type"))
+//                    .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase"))
+//                    .Terms(t => t.FacetName("status").Field("status"))
+//                    )
                 .BuildBeautified();
             Console.WriteLine("Query:");
             Console.WriteLine("******");
