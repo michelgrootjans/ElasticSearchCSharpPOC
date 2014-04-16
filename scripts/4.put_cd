@@ -1,0 +1,12 @@
+curl -XPUT localhost:9200/amazon/cd/B001921V0O -d '
+  {
+    "cd": {
+      "asin": "B001921V0O",
+      "name": "THE E.N.D. (Energy Never Dies)",
+      "artist": "Black Eyed Peas",
+      "label": "Interscope",
+      "release_date": "2009-06-09",
+      "tag": ["hip-hop", "pop-rap"]
+    }
+  }
+'
