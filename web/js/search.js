@@ -21,6 +21,7 @@ function ping(client){
 
 function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
+  if(q=="null") return;
   var perPage = $.querystring('per_page') || 10;
   var pageNum = $.querystring('page') || 0;
 
@@ -44,18 +45,18 @@ function execute_search(client){
             },
             // filter: { and: getFilter() },
             // facets: {
-              // project_type: { 
-                // terms: { field: 'project_type', all_terms: true, order: 'count' }
-              // },
-              // programmatie: { 
-                // terms: { field: 'programmatie', order: 'count' }
-              // },
-              // status: {
-                // terms: { field: 'status', order: 'count' }
-              // }
+            //   "Projecttype": { 
+            //     terms: { field: 'project_type', all_terms: true, order: 'count' }
+            //   },
+            //   "Programmatie": { 
+            //     terms: { field: 'programmatie', order: 'count' }
+            //   },
+            //   "Status": {
+            //     terms: { field: 'status', order: 'count' }
+            //   }
             // },
             // highlight: {
-              // fields: {"omschrijving": {}}
+            //   fields: {"omschrijving": {}}
             // }
           }
   })
@@ -65,9 +66,9 @@ function execute_search(client){
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
-    // $('#facets').html('').append(display_facets(body.facets));
+    $('#facets').html('').append(display_facets(body.facets));
 
-    // display_paging(body.hits.total, pageNum, perPage);
+    display_paging(body.hits.total, pageNum, perPage);
   }, function(error) {
     notify('error', error.message);
   });
