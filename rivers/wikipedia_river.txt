@@ -1,0 +1,11 @@
+https://github.com/elasticsearch/elasticsearch-river-wikipedia
+
+bin/plugin -install elasticsearch/elasticsearch-river-wikipedia/2.0.0
+
+curl -XPUT localhost:9200/_river/wikipedia_river/_meta -d '
+{
+    "type" : "wikipedia",
+    "index" : {
+        "index" : "wikipedia_river"
+    }}
+'

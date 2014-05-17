@@ -1,0 +1,21 @@
+https://github.com/elasticsearch/elasticsearch-river-twitter
+
+bin/plugin -install elasticsearch/elasticsearch-river-twitter/2.0.0
+
+curl -XPUT localhost:9200/_river/twitter_river/_meta -d '
+{
+    "type" : "twitter",
+    "twitter" : {
+        "oauth" : {
+            "consumer_key" : "*** YOUR Consumer key HERE ***",
+            "consumer_secret" : "*** YOUR Consumer secret HERE ***",
+            "access_token" : "*** YOUR Access token HERE ***",
+            "access_token_secret" : "*** YOUR Access token secret HERE ***"
+        },
+        "filter" : {
+            "tracks" : "elasticsearch,bootstrap,angularjs",
+            "language" : "en"
+        }
+    }
+}
+'

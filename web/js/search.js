@@ -12,7 +12,7 @@ $(document).ready(function(){
 function ping(client){
   client.ping({ requestTimeout: 2000 }, function(error){
     if (error){
-      notify('error', 'elasticsearch cluster is down');
+      notify('warning', 'elasticsearch cluster is down');
     } else {
       notify('success', 'elasticsearch cluster is up');
     }
@@ -119,6 +119,7 @@ function url_with(param, value){
 
 function notify(error_type, message){
   $('#notifications').attr('class', '')
+                     .addClass('alert-box')
                      .addClass(error_type)
                      .html(message)
 };
@@ -136,7 +137,7 @@ function display_summary(item){
   var transform = { 'tag': 'div', 'class': 'summary' };
   var score = item._score;
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
-  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted: ${text}' }
+  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted' }
   if(item._type == 'page') { transform.html = '${title}' }
   if(item._type == 'project') { 
     transform.html = "${identificatie}: '${omschrijving}' -  score: " + score
@@ -164,7 +165,9 @@ function display_highlight(highlight_name, highlight)
 {
   var result = $('<div/>').addClass('highlighted').addClass(highlight_name);
   highlight.forEach(function(h){
-    result.append(h);
+    result.append(
+      $('<div/>').addClass('highlight').append(h)
+    );
   });
   return result;
 }
