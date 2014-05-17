@@ -43,24 +43,21 @@ function execute_search(client){
                 query: q
               }
             },
-            filter: { and: getFilter() },
-            facets: {
-              "project_type": { 
-                terms: { field: 'project_type', all_terms: true, order: 'count' }
-              },
-              "programmatie": { 
-                terms: { field: 'programmatie', order: 'count' }
-              },
-              "status": {
-                terms: { field: 'status', order: 'count' }
-              },
-              "username": {
-                terms: { field: 'user.name', order: 'count' }
-              }
-            },
-            highlight: {
-              fields: {"text": {}}
-            }
+            // filter: { and: getFilter() },
+            // facets: {
+            //   "Projecttype": { 
+            //     terms: { field: 'project_type', all_terms: true, order: 'count' }
+            //   },
+            //   "Programmatie": { 
+            //     terms: { field: 'programmatie', order: 'count' }
+            //   },
+            //   "Status": {
+            //     terms: { field: 'status', order: 'count' }
+            //   }
+            // },
+            // highlight: {
+            //   fields: {"omschrijving": {}}
+            // }
           }
   })
   .then(function(body) {
@@ -126,47 +123,23 @@ function notify(error_type, message){
 
 
 function display_result(item){
-  var result = $('<div/>').addClass('search-result');
-  result.append(display_summary(item));
-  result.append(display_highlights(item));
-  return result;
-}
-
-function display_summary(item){
-  var transform = { 'tag': 'div', 'class': 'summary' };
+  var transform = { 'tag': 'div', 'class': 'search-result' };
   var score = item._score;
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
-  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted: ${text}' }
-  if(item._type == 'page') { transform.html = '${title}' }
+  if(item._type == 'tweet') { transform.html = "${UserName} tweeted: '${Text}' -  score: " + score }
   if(item._type == 'project') { 
-    transform.html = "${identificatie}: '${omschrijving}' -  score: " + score
+    transform.html = "${identificatie}: '${omschrijving}' -  score: " + score + '<div class="highlight">' + getHighlights(item) + '</div>' 
   }
   return json2html.transform(item._source, transform)
 }
 
-function display_highlights(item){
+function getHighlights(item){
   try{
-    // return item.highlight.text[0];
-    var result = $('<div/>').addClass('highlights');
-    var highlights = item.highlight
-  for(var highlight_name in highlights){
-    if(highlights.hasOwnProperty(highlight_name)){
-      result.append(display_highlight(highlight_name, highlights[highlight_name]));
-    }
-  }
-    return result;
+    return item.highlight.omschrijving[0];
   }
   catch(e){
     return "";
   }
-}
-function display_highlight(highlight_name, highlight)
-{
-  var result = $('<div/>').addClass('highlighted').addClass(highlight_name);
-  highlight.forEach(function(h){
-    result.append(h);
-  });
-  return result;
 }
 
 function display_facets(facets){
@@ -181,7 +154,7 @@ function display_facets(facets){
 
 function display_facet(facet_name, facet)
 {
-  var result = $('<div/>').addClass(facet_name).addClass('facet');
+  var result = $('<div/>').addClass('facet').addClass(facet_name);
   result.append($('<h3/>').html(facet_name));
   facet.terms.forEach(function(facet){
     result.append(display_facet_item(facet, facet_name));

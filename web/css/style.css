@@ -58,11 +58,11 @@ a:visited{
   padding-left: 10px;
 }
 
-.highlight{
+.highlights{
   margin-left: 10px;
   color: #999;
 }
-.highlight em{
+.highlighted em{
   color: #666;
   background-color: yellow;
 }
