@@ -1,34 +1,3 @@
-a{
-  color: blue;
-}
-a:visited{
-  color: blue;
-}
-
-.side {
-    width: 200px;
-    float: left;
-}
-
-.main {
-    margin-left: 200px;
-}
-#paging {
-  padding: 2px;
-  border-top: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
-}
-
-#paging a.page{
-  padding: 2px;
-}
-
-.current a, a.current{
-  color: #999;
-  font-weight: bold;
-  text-decoration: none;
-}
-
 .search-result{
   margin: 10px 0px;
   border-left: 1px solid #cccccc;
