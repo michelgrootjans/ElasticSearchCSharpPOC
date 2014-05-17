@@ -103,12 +103,13 @@ function display_paging(total_number_of_records, page_num, per_page){
   console.log("page " + page_num + "/" + number_of_pages + "(" + total_number_of_records + " records)");
 
   for(var page_number=0; page_number < number_of_pages; page_number++){
+    var li = $('<li/>')
     var link = $("<a/>").addClass('page').html(page_number).attr('href', url_with('page', page_number));
 
-    if(page_number == $.querystring('page'))
-      link.addClass('current');
+    if(page_number == page_num)
+      li.addClass('current');
 
-    $('#paging').append(link);
+    $('#paging').append(li.append(link));
   }
 }
 
