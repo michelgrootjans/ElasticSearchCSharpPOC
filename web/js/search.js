@@ -138,7 +138,7 @@ function display_summary(item){
   var transform = { 'tag': 'div', 'class': 'summary' };
   var score = item._score;
   if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
-  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted' }
+  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted:' }
   if(item._type == 'page') { transform.html = '${title}' }
   if(item._type == 'project') { 
     transform.html = "${identificatie}: '${omschrijving}' -  score: " + score
@@ -148,7 +148,6 @@ function display_summary(item){
 
 function display_highlights(item){
   try{
-    // return item.highlight.text[0];
     var result = $('<div/>').addClass('highlights');
     var highlights = item.highlight
   for(var highlight_name in highlights){
@@ -167,7 +166,10 @@ function display_highlight(highlight_name, highlight)
   var result = $('<div/>').addClass('highlighted').addClass(highlight_name);
   highlight.forEach(function(h){
     result.append(
-      $('<div/>').addClass('highlight').append(h)
+      $('<div/>').addClass('highlight')
+                 .append('...')
+                 .append(h)
+                 .append('...')
     );
   });
   return result;
