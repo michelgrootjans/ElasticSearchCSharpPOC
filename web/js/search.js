@@ -7,11 +7,9 @@ function execute_search(client){
   var pageNum = $.querystring('page') || 0;
 
   var results = $('<div/>').addClass("search-results");
-  var facets_element  = $('<div/>');
   var search_resluts_title = $('<h3/>').append("Searching ...");
 
   $('#search_results').html(search_resluts_title).append(results);
-  $('#paging').html('');
 
   client.search(
   {
@@ -34,8 +32,8 @@ function execute_search(client){
               "status": {
                 terms: { field: 'status', order: 'count' }
               },
-              "username": {
-                terms: { field: 'user.name', order: 'count', size: 5 }
+              "user.name": {
+                terms: { field: 'user.name', order: 'count' }
               }
             },
             highlight: {
@@ -63,6 +61,7 @@ function getFilter(){
   getFacetFilter(result, 'project_type');
   getFacetFilter(result, 'programmatie');
   getFacetFilter(result, 'status');
+  getFacetFilter(result, 'user.name');
   if (result.length == 0)
     result.push({});
   return result;
