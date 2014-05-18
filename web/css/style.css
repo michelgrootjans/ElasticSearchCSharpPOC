@@ -1,19 +1,14 @@
-.search-result{
+.search-result {
   margin: 10px 0px;
   border-left: 1px solid #cccccc;
   padding-left: 10px;
 }
 
-.highlights{
+.highlights {
   margin-left: 10px;
   color: #999;
 }
-.highlighted em{
+.highlighted em {
   color: #666;
   background-color: yellow;
-}
-
-#facets h3
-{
-  margin-bottom: 0px;
 }
