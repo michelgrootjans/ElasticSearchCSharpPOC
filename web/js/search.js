@@ -184,7 +184,7 @@ function display_highlight(highlight_name, highlight)
 }
 
 function display_facets(facets){
-  var result = $('<div/>');
+  var result = $('<ul/>').addClass('side-nav');
   for(var facet_name in facets){
     if(facets.hasOwnProperty(facet_name)){
       result.append(display_facet(facet_name, facets[facet_name]));
@@ -196,21 +196,33 @@ function display_facets(facets){
 function display_facet(facet_name, facet)
 {
   if(facet.terms.length == 0) return "";
-  var result = $('<div/>').addClass(facet_name).addClass('facet');
-  result.append($('<h3/>').html(facet_name));
-  facet.terms.forEach(function(facet){
-    result.append(display_facet_item(facet, facet_name));
+
+  var result = new Array();
+  //var result = $('<div/>').addClass(facet_name).addClass('facet');
+  result.push(
+    $('<li/>').addClass('facet')
+              .addClass(facet_name)
+              .addClass('heading')
+              .html(facet_name)
+  );
+  facet.terms.forEach(function(f){
+    result.push(display_facet_item(f, facet_name));
   });
+
+  result.push($('<li/>').addClass('divider'));
+
   return result;
 }
 
 function display_facet_item(facet, type){
-  var result = $('<div/>');
+  var item = $('<li/>');
   var transform = { 'tag': 'a', 'html': '${term} (${count})'};
   var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
   if(facet.term == $.querystring(type))
-    result.addClass('current');
-  return result.addClass('facet-value').append(link);
+    item.addClass('active');
+  return item.addClass('facet-value')
+             .addClass(type)
+             .append(link);
 }
 
 var entityMap = {
