@@ -195,6 +195,7 @@ function display_facets(facets){
 
 function display_facet(facet_name, facet)
 {
+  if(facet.terms.length == 0) return "";
   var result = $('<div/>').addClass(facet_name).addClass('facet');
   result.append($('<h3/>').html(facet_name));
   facet.terms.forEach(function(facet){
