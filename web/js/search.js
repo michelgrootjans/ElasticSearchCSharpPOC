@@ -1,14 +1,22 @@
 $(document).ready(function(){
-
+  prepare_search();
+  
   var client = new $.es.Client({
     hosts: ['localhost:9200'],
     log: 'trace'
   });
 
-  $('#q').focus();
   ping(client);
   execute_search(client);
 });
+
+function prepare_search(){
+  $('#q').val($.querystring('q'));
+  $('#q').focus();
+  $('#search_button').click(function(){
+    $('#search_form').submit();
+  });
+}
 
 function ping(client){
   client.ping({ requestTimeout: 2000 }, function(error){
@@ -30,7 +38,6 @@ function execute_search(client){
   var facets_element  = $('<div/>');
   var search_resluts_title = $('<h3/>').append("Searching ...");
 
-  $('#q').val($.querystring('q'));
   $('#search_results').html(search_resluts_title).append(results);
   $('#paging').html('');
 
