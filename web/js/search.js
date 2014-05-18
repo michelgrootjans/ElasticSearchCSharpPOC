@@ -5,6 +5,7 @@ $(document).ready(function(){
     log: 'trace'
   });
 
+  $('#q').focus();
   ping(client);
   execute_search(client);
 });
@@ -14,7 +15,7 @@ function ping(client){
     if (error){
       notify('warning', 'elasticsearch cluster is down');
     } else {
-      notify('success', 'elasticsearch cluster is up');
+      // notify('success', 'elasticsearch cluster is up');
     }
   });
 }
@@ -27,7 +28,7 @@ function execute_search(client){
 
   var results = $('<div/>').addClass("search-results");
   var facets_element  = $('<div/>');
-  var search_resluts_title = $('<h3/>').append('Search Results');
+  var search_resluts_title = $('<h3/>').append("Searching ...");
 
   $('#q').val($.querystring('q'));
   $('#search_results').html(search_resluts_title).append(results);
@@ -65,7 +66,7 @@ function execute_search(client){
   })
   .then(function(body) {
     console.log(body);
-    search_resluts_title.append(' (' + body.hits.total + ')')
+    search_resluts_title.html('Search Results (' + body.hits.total + ')');
     body.hits.hits.forEach(function(item){
       results.append(display_result(item));
     });
