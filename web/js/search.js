@@ -3,8 +3,8 @@
 function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
   if(q=="null") return;
-  var perPage = $.querystring('per_page') || 10;
-  var pageNum = $.querystring('page') || 0;
+  var perPage = parseInt($.querystring('per_page') || 10);
+  var pageNum = parseInt($.querystring('page') || 0);
 
   var results = $('<div/>').addClass("search-results");
   var search_resluts_title = $('<h3/>').append("Searching ...");
@@ -31,6 +31,9 @@ function execute_search(client){
               },
               "status": {
                 terms: { field: 'status', order: 'count' }
+              },
+              "category": {
+                terms: { field: 'category', order: 'count' }
               },
               "user.name": {
                 terms: { field: 'user.name', order: 'count' }
@@ -61,7 +64,9 @@ function getFilter(){
   getFacetFilter(result, 'project_type');
   getFacetFilter(result, 'programmatie');
   getFacetFilter(result, 'status');
+  getFacetFilter(result, 'category');
   getFacetFilter(result, 'user.name');
+  result.push({term: { redirect: false }});
   if (result.length == 0)
     result.push({});
   return result;
