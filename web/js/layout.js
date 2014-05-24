@@ -101,13 +101,8 @@ function display_facet(facet_name, facet)
   if(facet.terms.length == 0) return "";
 
   var result = new Array();
-  //var result = $('<div/>').addClass(facet_name).addClass('facet');
-  result.push(
-    $('<li/>').addClass('facet')
-              .addClass(facet_name)
-              .addClass('heading')
-              .html(facet_name)
-  );
+
+  result.push(display_facet_header(facet_name));
   facet.terms.forEach(function(f){
     result.push(display_facet_item(f, facet_name));
   });
@@ -117,12 +112,25 @@ function display_facet(facet_name, facet)
   return result;
 }
 
+function display_facet_header(facet_name){
+  var link = $('<a/>').attr('href', url_without(facet_name))
+                      .html(facet_name);
+  var item =  $('<li/>').addClass('facet')
+                        .addClass(facet_name)
+                        .addClass('heading')
+                        .html(link);
+  if($.querystring(facet_name) == null)
+    item.addClass('current');
+
+  return item;
+}
+
 function display_facet_item(facet, type){
   var item = $('<li/>');
   var transform = { 'tag': 'a', 'html': '${term} (${count})'};
   var link = $(json2html.transform(facet, transform)).attr('href', url_with(type, escapeHtml(facet.term)));
   if(facet.term == $.querystring(type))
-    item.addClass('active');
+    item.addClass('current');
   return item.addClass('facet-value')
              .addClass(type)
              .append(link);

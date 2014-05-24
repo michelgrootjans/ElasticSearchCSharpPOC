@@ -10,3 +10,21 @@
     padding-bottom: 0.35rem;
     font-size: 0.75rem;
 }
+
+.side-nav .heading {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.side-nav li {
+    padding: 0rem 0.5rem;
+    color: #006a98;
+}
+
+.side-nav li.current {
+    border-radius: 2px;
+    background-color: #008cba;
+}
+.side-nav li.current a {
+    color: white;
+}

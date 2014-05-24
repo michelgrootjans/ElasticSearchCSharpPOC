@@ -13,6 +13,11 @@ function url_with(param, value){
   return updateQueryStringParameter(current_location, param, value);
 }
 
+function url_without(param){
+  var current_location = window.location.href;
+  return removeQueryStringParameter(current_location, param, null);
+}
+
 function notify(error_type, message){
   $('#notifications').attr('class', '')
                      .addClass('alert-box')
@@ -36,11 +41,22 @@ function escapeHtml(string) {
 
 function updateQueryStringParameter(uri, key, value) {
   var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
   if (uri.match(re)) {
     return uri.replace(re, '$1' + key + "=" + value + '$2');
   }
   else {
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
     return uri + separator + key + "=" + value;
+  }
+}
+
+function removeQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$2');
+  }
+  else {
+    return uri;
   }
 }
