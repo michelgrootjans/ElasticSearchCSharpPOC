@@ -18,6 +18,27 @@ function execute_search(client){
               query_string: {
                 query: q
               }
+            },
+            filter: { and: getFilter() },
+            facets: {
+              "project_type": { 
+                terms: { field: 'project_type', all_terms: true, order: 'count' }
+              },
+              "programmatie": { 
+                terms: { field: 'programmatie', order: 'count' }
+              },
+              "status": {
+                terms: { field: 'status', order: 'count' }
+              },
+              "category": {
+                terms: { field: 'category', order: 'count' }
+              },
+              "user.name": {
+                terms: { field: 'user.name', order: 'count' }
+              }
+            },
+            highlight: {
+              fields: {"text": {}}
             }
           }
   })
@@ -44,7 +65,6 @@ function getFilter(){
   getFacetFilter(result, 'status');
   getFacetFilter(result, 'category');
   getFacetFilter(result, 'user.name');
-  result.push({term: { redirect: false }});
   if (result.length == 0)
     result.push({});
   return result;

@@ -1,0 +1,33 @@
+  client.search(
+  {
+    size: perPage,
+    from: (pageNum - 0) * perPage,
+    body: {
+            query: {
+               query_string: {
+                  query: q
+                }
+            },
+            filter: { and: getFilter() },
+            facets: {
+              "project_type": { 
+                terms: { field: 'project_type', all_terms: true, order: 'count' }
+              },
+              "programmatie": { 
+                terms: { field: 'programmatie', order: 'count' }
+              },
+              "status": {
+                terms: { field: 'status', order: 'count' }
+              },
+              "category": {
+                terms: { field: 'category', order: 'count' }
+              },
+              "user.name": {
+                terms: { field: 'user.name', order: 'count' }
+              }
+            },
+            highlight: {
+              fields: {"text": {}}
+              }
+            }
+    })
