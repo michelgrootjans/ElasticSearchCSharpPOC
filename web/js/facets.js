@@ -10,7 +10,7 @@ function display_facets(facets){
 
 function display_facet(facet_name, facet)
 {
-  if(facet.terms.length == 0) return "";
+  if(facet.terms.length == 0) return '';
 
   var result = new Array();
 
