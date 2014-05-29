@@ -1,16 +1,18 @@
 function display_highlights(item){
   try{
     var result = $('<div/>').addClass('highlights');
-    var highlights = item.highlight
-  for(var highlight_name in highlights){
-    if(highlights.hasOwnProperty(highlight_name)){
-      result.append(display_highlight(highlight_name, highlights[highlight_name]));
+    var highlights = item.highlight;
+
+    for(var highlight_name in highlights){
+      if(highlights.hasOwnProperty(highlight_name)){
+        result.append(display_highlight(highlight_name, highlights[highlight_name]));
+      }
     }
-  }
+    
     return result;
   }
   catch(e){
-    return "";
+    return '';
   }
 }
 
@@ -25,5 +27,6 @@ function display_highlight(highlight_name, highlight)
                  .append('...')
     );
   });
+  
   return result;
 }
