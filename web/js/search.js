@@ -1,5 +1,3 @@
-
-
 function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
   if(q=="null") return;
@@ -20,27 +18,6 @@ function execute_search(client){
               query_string: {
                 query: q
               }
-            },
-            filter: { and: getFilter() },
-            facets: {
-              "project_type": { 
-                terms: { field: 'project_type', all_terms: true, order: 'count' }
-              },
-              "programmatie": { 
-                terms: { field: 'programmatie', order: 'count' }
-              },
-              "status": {
-                terms: { field: 'status', order: 'count' }
-              },
-              "category": {
-                terms: { field: 'category', order: 'count' }
-              },
-              "user.name": {
-                terms: { field: 'user.name', order: 'count' }
-              }
-            },
-            highlight: {
-              fields: {"text": {}}
             }
           }
   })
@@ -57,6 +34,7 @@ function execute_search(client){
     notify('error', error.message);
   });
 }
+
 
 function getFilter(){
   //this is the place where selected facets will be filtered from the hits
