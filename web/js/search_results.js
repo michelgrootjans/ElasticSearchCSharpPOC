@@ -6,17 +6,25 @@ function display_result(item){
 }
 
 function display_summary(item){
-  var transform = { 'tag': 'div', 'class': 'summary' };
-  var score = item._score;
-  if(item._type == 'user') { transform.html = '${FirstName} ${LastName} (${UserName}) - score: ' + score }
-  if(item._type == 'status') { transform.html = '<b>${user.name}</b> tweeted:' }
-  if(item._type == 'book') { transform.html = '<b>${book.name}</b> by ${book.author.first_name} ${book.author.last_name}' }
-  if(item._type == 'song') { transform.html = '<b>${song.name}</b> by ${song.artist} - Album: ${song.album}' }
-  if(item._type == 'page') { transform.html = '${title}' }
-  if(item._type == 'project') { 
-    transform.html = "${identificatie}: '${omschrijving}' -  score: " + score
-  }
+  var transform = { 'tag': 'div', 'class': 'summary', 'html': get_transform(item) };
   return json2html.transform(item._source, transform)
+}
+
+function get_transform(item){
+  switch(item._type){
+    case 'book':
+      return '<b>${book.name}</b> by ${book.author.first_name} ${book.author.last_name}';
+    case 'song':
+      return '<b>${song.name}</b> by ${song.artist} - Album: ${song.album}';  
+    case 'status':
+      return '<b>${user.name}</b> tweeted:';  
+    case 'page':
+      return '${title}';
+    case 'project':
+      return "${identificatie}: '${omschrijving}' -  score: " + item._score ;
+    default:
+      return "don't know how to display: " + item._type;  
+  }
 }
 
 
