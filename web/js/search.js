@@ -2,8 +2,6 @@ function execute_search(client){
   var q =  escapeHtml($.querystring('q'));
   if(q=="null") return;
 
-  // var results = $('<div/>').addClass("search-results");
-  // var search_resluts_title = $('<h3/>').append("Searching ...");
   $('#search-results .title').html('Searching ...');
 
   var perPage = parseInt($.querystring('per_page') || 10);
