@@ -10,7 +10,6 @@ namespace ElasticSearch.POC.ConsoleApp
         public string project_type { get; set; }
         public string omschrijving { get; set; }
         public string status { get; set; }
-        public string programmatie { get; set; }
         public string gemeente { get; set; }
     }
 
@@ -28,7 +27,6 @@ namespace ElasticSearch.POC.ConsoleApp
                         map: r => r
                             .Properties(prop => prop
 //                                .String(p => p.status, f => f.Analyzer(DefaultAnalyzers.keyword))
-//                                .String(p => p.programmatie, f => f.Analyzer(DefaultAnalyzers.keyword))
 //                                .String(p => p.gemeente, f => f.Analyzer(DefaultAnalyzers.keyword))
                             )
                     )

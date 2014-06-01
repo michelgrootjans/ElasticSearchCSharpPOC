@@ -32,9 +32,6 @@ private const string getProjectsQuery = @"
 select pj.Id,
 	   pj.Identificatie,
 	   pj.Omschrijving,
-	   pj.ProgrammatieFase,
-	   pj.VolgendeProgrammatieFase,
-	   pj.isbevestigd,
 	   pj.projectType,
 	   ps.Naam as 'status',
 	   g.Naam as 'gemeente'
@@ -50,20 +47,10 @@ left outer join VMSW_GIPR_Gemeentes g on pj.GemeenteID = g.ID
                 identificatie = reader.GetStringValue("identificatie"),
                 omschrijving = reader.GetStringValue("omschrijving"),
                 project_type = MapProjectType(reader),
-                programmatie = MapProgrammatie(reader),
                 status = reader.GetStringValue("status", "geen status"),
                 gemeente = reader.GetStringValue("gemeente")
             };
             return project;
-        }
-
-        private static string MapProgrammatie(IDataReader reader)
-        {
-            var huidigeFase = reader.GetIntValue("programmatiefase");
-            var volgendeFase = reader.GetIntValue("volgendeprogrammatiefase");
-            var bevestigd = !reader.GetBooleanValue("isbevestigd");
-            var programmatie = string.Format("{0} {1} {2}", huidigeFase, volgendeFase, bevestigd ? "bevestigd" : "voorgesteld");
-            return programmatie;
         }
 
         private static string MapProjectType(IDataReader reader)
