@@ -30,9 +30,6 @@ function execute_search(client){
               },
               "category": {
                 terms: { field: 'category', order: 'count' }
-              },
-              "user.name": {
-                terms: { field: 'user.name', order: 'count' }
               }
             },
             highlight: {

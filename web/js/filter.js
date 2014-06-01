@@ -3,7 +3,6 @@ function getFilter(){
   var result = [];
   getFacetFilter(result, 'project_type');
   getFacetFilter(result, 'gemeente');
-  getFacetFilter(result, 'programmatie');
   getFacetFilter(result, 'status');
   getFacetFilter(result, 'category');
   if (result.length == 0)
