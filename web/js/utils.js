@@ -2,8 +2,6 @@ function ping(client){
   client.ping({ requestTimeout: 2000 }, function(error){
     if (error){
       notify('warning', 'elasticsearch cluster is down');
-    } else {
-      // notify('success', 'elasticsearch cluster is up');
     }
   });
 }
