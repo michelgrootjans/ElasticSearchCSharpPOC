@@ -2,10 +2,10 @@ function getFilter(){
   //this is the place where selected facets will be filtered from the hits
   var result = [];
   getFacetFilter(result, 'project_type');
+  getFacetFilter(result, 'gemeente');
   getFacetFilter(result, 'programmatie');
   getFacetFilter(result, 'status');
   getFacetFilter(result, 'category');
-  getFacetFilter(result, 'user.name');
   if (result.length == 0)
     result.push({});
   return result;

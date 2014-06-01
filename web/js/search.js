@@ -24,8 +24,8 @@ function execute_search(client){
               "project_type": { 
                 terms: { field: 'project_type', all_terms: true, order: 'count' }
               },
-              "programmatie": { 
-                terms: { field: 'programmatie', order: 'count' }
+              "gemeente": { 
+                terms: { field: 'gemeente', order: 'count' }
               },
               "status": {
                 terms: { field: 'status', order: 'count' }
@@ -38,7 +38,10 @@ function execute_search(client){
               }
             },
             highlight: {
-              fields: {"text": {}}
+              fields: {
+                "omschrijving": {},
+                "text": {}
+              }
             }
           }
   })
