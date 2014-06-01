@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using JsonFx.Json;
 using PlainElastic.Net;
 
 namespace ElasticSearch.POC.ConsoleApp
@@ -16,7 +15,6 @@ namespace ElasticSearch.POC.ConsoleApp
             {
                 var result = QueryData(connection);
                 PrintResult(result);
-//                ParseResult(result);
             }
         }
 
@@ -47,19 +45,6 @@ namespace ElasticSearch.POC.ConsoleApp
             Console.WriteLine("Result:");
             Console.WriteLine("*******");
             Console.WriteLine(result);
-        }
-
-        private static void ParseResult(string result)
-        {
-            Console.WriteLine("Parsing:");
-            Console.WriteLine("*******");
-            var reader = new JsonReader();
-            dynamic dynamicResult = reader.Read(result);
-            Console.WriteLine("{0} results", dynamicResult.hits.total);
-            foreach (var hit in dynamicResult.hits.hits)
-            {
-                Console.WriteLine("{0} - {1}", hit._source.Identificatie, hit._source.Omschrijving);
-            }
         }
     }
 }
