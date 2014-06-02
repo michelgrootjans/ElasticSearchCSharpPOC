@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearch.ConsoleApp", "ElasticSearch.POC.ConsoleApp\ElasticSearch.ConsoleApp.csproj", "{4D10A9A5-9D5C-4290-823E-F2BA479A4006}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearch.ConsoleApp", "ElasticSearch.ConsoleApp\ElasticSearch.ConsoleApp.csproj", "{4D10A9A5-9D5C-4290-823E-F2BA479A4006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
