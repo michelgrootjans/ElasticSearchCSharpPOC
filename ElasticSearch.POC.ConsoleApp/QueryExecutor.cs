@@ -1,5 +1,4 @@
 ﻿using System;
-using JsonFx.Json;
 using PlainElastic.Net;
 using PlainElastic.Net.Queries;
 using PlainElastic.Net.Utils;
