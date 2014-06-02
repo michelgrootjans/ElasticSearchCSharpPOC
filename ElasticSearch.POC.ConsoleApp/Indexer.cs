@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using PlainElastic.Net;
 using PlainElastic.Net.Serialization;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp
 {
     internal class Indexer
     {

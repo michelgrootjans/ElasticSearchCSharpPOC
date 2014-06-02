@@ -7,8 +7,8 @@
     <ProjectGuid>{4D10A9A5-9D5C-4290-823E-F2BA479A4006}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElasticSearch.POC.ConsoleApp</RootNamespace>
-    <AssemblyName>ElasticSearch.POC.ConsoleApp</AssemblyName>
+    <RootNamespace>ElasticSearch.ConsoleApp</RootNamespace>
+    <AssemblyName>ElasticSearch.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

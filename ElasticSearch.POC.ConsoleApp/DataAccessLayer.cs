@@ -2,8 +2,9 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using ElasticSearch.ConsoleApp.Indexables;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp
 {
     internal class DataAccessLayer
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using PlainElastic.Net;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp
 {
     class Program
     {

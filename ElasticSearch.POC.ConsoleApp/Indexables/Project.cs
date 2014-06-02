@@ -1,7 +1,6 @@
-﻿using PlainElastic.Net;
-using PlainElastic.Net.Mappings;
+﻿using PlainElastic.Net.Mappings;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp.Indexables
 {
     internal class Project : IIndexable
     {

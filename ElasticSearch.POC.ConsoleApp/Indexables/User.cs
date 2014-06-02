@@ -1,4 +1,4 @@
-namespace ElasticSearch.POC.ConsoleApp.Indexables
+namespace ElasticSearch.ConsoleApp.Indexables
 {
     internal class User : IIndexable
     {

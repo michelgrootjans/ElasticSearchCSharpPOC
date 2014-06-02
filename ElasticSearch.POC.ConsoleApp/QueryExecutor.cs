@@ -3,7 +3,7 @@ using PlainElastic.Net;
 using PlainElastic.Net.Queries;
 using PlainElastic.Net.Utils;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp
 {
     internal class QueryExecutor
     {

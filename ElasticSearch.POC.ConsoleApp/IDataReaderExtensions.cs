@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace ElasticSearch.POC.ConsoleApp
+namespace ElasticSearch.ConsoleApp
 {
     public static class IDataReaderExtensions
     {
