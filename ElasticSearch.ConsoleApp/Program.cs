@@ -21,7 +21,7 @@ namespace ElasticSearch.ConsoleApp
             }
         }
 
-        private static void IndexData(ElasticConnection connection)
+        private static void IndexData(IElasticConnection connection)
         {
             var indexer = new Indexer(connection, "projects")
                                 .Reset()
@@ -35,7 +35,7 @@ namespace ElasticSearch.ConsoleApp
             Console.WriteLine("Done indexing {0} records - took {1}ms", projecten.Count(), (DateTime.Now - start).TotalMilliseconds);
         }
 
-        private static string QueryData(ElasticConnection connection)
+        private static string QueryData(IElasticConnection connection)
         {
             Console.WriteLine("**************************");
             Console.WriteLine("What do you want to query?");
