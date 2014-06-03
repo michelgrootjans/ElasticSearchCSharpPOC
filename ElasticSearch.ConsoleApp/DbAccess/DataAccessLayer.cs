@@ -9,7 +9,7 @@ namespace ElasticSearch.ConsoleApp.DbAccess
     internal class DataAccessLayer
     {
 
-        public IEnumerable<Project> GetVmswProjecten()
+        public IEnumerable<Project> GetProjecten()
         {
             using (var connection = CreateDbConnection())
             using (var command = connection.CreateCommand())

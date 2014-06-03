@@ -1,16 +1,18 @@
 ﻿Todo
 ----
-- Explore SearchResult properties for output
-- Add weight to properties
 - When to create a new index
+- 'Did you mean ...'
+- 'Sounds like ...'
 
 WIP
 ---
-- drilldown with facets
+- Add weight to properties
 
 Done
 ----
-- Index VMSW database
+- drilldown with facets
+- Explore SearchResult properties for output
+- Index database
 - Search on all fields
 - Index objects
 - GUID as id

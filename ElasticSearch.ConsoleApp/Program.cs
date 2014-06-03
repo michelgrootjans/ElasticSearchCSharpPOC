@@ -13,7 +13,7 @@ namespace ElasticSearch.ConsoleApp
         {
             var connection = new ElasticConnection("localhost");
 
-            IndexVmswData(connection);
+            IndexData(connection);
             while (true)
             {
                 var result = QueryData(connection);
@@ -21,12 +21,12 @@ namespace ElasticSearch.ConsoleApp
             }
         }
 
-        private static void IndexVmswData(ElasticConnection connection)
+        private static void IndexData(ElasticConnection connection)
         {
             var indexer = new Indexer(connection, "projects")
                                 .Reset()
                                 .InitializeWith(new ProjectMapper());
-            var projecten = new DataAccessLayer().GetVmswProjecten();
+            var projecten = new DataAccessLayer().GetProjecten();
             var start = DateTime.Now;
             indexer.Index(new Tweet{UserName = "michelgrootjans", Text = "hello elasticsearch"});
             indexer.Index(new User{FirstName = "Michel", LastName = "Grootjans"});
