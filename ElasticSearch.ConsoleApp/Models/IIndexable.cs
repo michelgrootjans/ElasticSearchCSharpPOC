@@ -1,4 +1,4 @@
-namespace ElasticSearch.ConsoleApp
+namespace ElasticSearch.ConsoleApp.Models
 {
     internal interface IIndexable
     {

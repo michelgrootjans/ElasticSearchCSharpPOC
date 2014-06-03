@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using ElasticSearch.ConsoleApp.DbAccess;
+using ElasticSearch.ConsoleApp.EsAccess;
+using ElasticSearch.ConsoleApp.Models;
 using PlainElastic.Net;
 
 namespace ElasticSearch.ConsoleApp
@@ -20,11 +23,13 @@ namespace ElasticSearch.ConsoleApp
 
         private static void IndexVmswData(ElasticConnection connection)
         {
-            var indexer = new Indexer(connection, "projects");
-            indexer.Reset();
-//            indexer.InitializeWith(new ProjectMapper());
+            var indexer = new Indexer(connection, "projects")
+                                .Reset()
+                                .InitializeWith(new ProjectMapper());
             var projecten = new DataAccessLayer().GetVmswProjecten();
             var start = DateTime.Now;
+            indexer.Index(new Tweet{UserName = "michelgrootjans", Text = "hello elasticsearch"});
+            indexer.Index(new User{FirstName = "Michel", LastName = "Grootjans"});
             indexer.Index(projecten);
             indexer.Flush();
             Console.WriteLine("Done indexing {0} records - took {1}ms", projecten.Count(), (DateTime.Now - start).TotalMilliseconds);
@@ -32,9 +37,9 @@ namespace ElasticSearch.ConsoleApp
 
         private static string QueryData(ElasticConnection connection)
         {
-            Console.WriteLine("************************************************");
-            Console.WriteLine("What do you want to query? (type 'exit' to exit)");
-            Console.WriteLine("************************************************");
+            Console.WriteLine("**************************");
+            Console.WriteLine("What do you want to query?");
+            Console.WriteLine("**************************");
 
             var queryExecutor = new QueryExecutor(connection, "projects");
             return queryExecutor.Query(Console.ReadLine());

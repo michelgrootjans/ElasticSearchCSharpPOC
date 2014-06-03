@@ -2,9 +2,9 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using ElasticSearch.ConsoleApp.Indexables;
+using ElasticSearch.ConsoleApp.Models;
 
-namespace ElasticSearch.ConsoleApp
+namespace ElasticSearch.ConsoleApp.DbAccess
 {
     internal class DataAccessLayer
     {
@@ -66,7 +66,7 @@ namespace ElasticSearch.ConsoleApp
             }
         }
 
-        private IDbConnection CreateDbConnection()
+        private static IDbConnection CreateDbConnection()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
             return new SqlConnection(connectionString);
