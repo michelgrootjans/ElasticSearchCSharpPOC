@@ -63,10 +63,4 @@ namespace ElasticSearch.ConsoleApp.EsAccess
             return this;
         }
     }
-
-    internal interface ITypeMapper
-    {
-        string TypeName { get; }
-        string Mapping { get; }
-    }
 }
