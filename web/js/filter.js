@@ -15,6 +15,6 @@ function getFacetFilter(result, facet_field){
   if(value == null) return;
 
   var filter = { term: {}};
-  filter.term[facet_field] = value
+  filter.term[facet_field] = value;
   result.push(filter);
 }
