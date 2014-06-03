@@ -23,21 +23,17 @@ namespace ElasticSearch.ConsoleApp.EsAccess
                     .QueryString(qs => qs
                         .Fields("_all")
                         .Query(queryString)))
-//                .Facets(facets => facets
-//                    .Terms(t => t.FacetName("Projecttypes").Field("project_type"))
-//                    .Terms(t => t.FacetName("Programmatie").Field("HuidigeProgrammatiefase"))
-//                    .Terms(t => t.FacetName("status").Field("status"))
-//                    )
+                .Facets(facets => facets
+                    .Terms(t => t.FacetName("Projecttypes").Field("project_type"))
+                    .Terms(t => t.FacetName("Statussen").Field("status"))
+                    )
                 .BuildBeautified();
             Console.WriteLine("Query:");
             Console.WriteLine("******");
             Console.WriteLine(query);
             Console.WriteLine();
 
-            var result = connection.Post(Commands.Search(index_name), query).Result.BeautifyJson();
-
-
-            return result;
+            return connection.Post(Commands.Search(index_name), query).Result.BeautifyJson();
         }
     }
 }

@@ -8,13 +8,13 @@ namespace ElasticSearch.ConsoleApp.EsAccess
     internal class Indexer
     {
         private readonly IElasticConnection connection;
-        private readonly string index_name;
+        private readonly string indexName;
         private readonly JsonNetSerializer serializer;
 
         public Indexer(IElasticConnection connection, string indexName)
         {
             this.connection = connection;
-            index_name = indexName;
+            this.indexName = indexName;
             serializer = new JsonNetSerializer();
         }
 
@@ -22,7 +22,7 @@ namespace ElasticSearch.ConsoleApp.EsAccess
         {
             try
             {
-                connection.Delete(Commands.Delete(index: index_name));
+                connection.Delete(Commands.Delete(index: indexName));
             }
             catch { }
             return this;
@@ -30,7 +30,7 @@ namespace ElasticSearch.ConsoleApp.EsAccess
 
         public Indexer Index(IIndexable indexable)
         {
-            var command = Commands.Index(index: index_name, type: indexable.GetType().Name, id: indexable._id);
+            var command = Commands.Index(index: indexName, type: indexable.GetType().Name, id: indexable._id);
             var data = serializer.ToJson(indexable);
             connection.Put(command, data);
             return this;
@@ -38,7 +38,7 @@ namespace ElasticSearch.ConsoleApp.EsAccess
 
         public Indexer Index<T>(IEnumerable<T> indexables) where T : IIndexable
         {
-            var command = Commands.Bulk(index_name, typeof (T).Name);
+            var command = Commands.Bulk(indexName, typeof (T).Name);
             var bulkJson =
                 new BulkBuilder(serializer)
                    .BuildCollection(indexables,
@@ -50,16 +50,16 @@ namespace ElasticSearch.ConsoleApp.EsAccess
 
         public Indexer Flush()
         {
-            var flushCommand = Commands.Flush(index: index_name);
+            var flushCommand = Commands.Flush(index: indexName);
             connection.Post(flushCommand);
             return this;
         }
 
         public Indexer InitializeWith(params ITypeMapper[] mappers)
         {
-            connection.Put(new IndexCommand(index: index_name));
+            connection.Put(new IndexCommand(index: indexName));
             foreach (var mapper in mappers)
-                connection.Put(new PutMappingCommand(index: index_name, type: mapper.TypeName), mapper.Mapping);
+                connection.Put(new PutMappingCommand(index: indexName, type: mapper.TypeName), mapper.Mapping);
             return this;
         }
     }
