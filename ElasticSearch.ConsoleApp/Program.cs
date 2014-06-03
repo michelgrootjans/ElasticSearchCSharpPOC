@@ -4,9 +4,9 @@ using PlainElastic.Net;
 
 namespace ElasticSearch.ConsoleApp
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var connection = new ElasticConnection("localhost");
 
@@ -20,7 +20,7 @@ namespace ElasticSearch.ConsoleApp
 
         private static void IndexVmswData(ElasticConnection connection)
         {
-            var indexer = new Indexer(connection, "prisma");
+            var indexer = new Indexer(connection, "projects");
             indexer.Reset();
 //            indexer.InitializeWith(new ProjectMapper());
             var projecten = new DataAccessLayer().GetVmswProjecten();
@@ -36,7 +36,7 @@ namespace ElasticSearch.ConsoleApp
             Console.WriteLine("What do you want to query? (type 'exit' to exit)");
             Console.WriteLine("************************************************");
 
-            var queryExecutor = new QueryExecutor(connection, "prisma");
+            var queryExecutor = new QueryExecutor(connection, "projects");
             return queryExecutor.Query(Console.ReadLine());
         }
 

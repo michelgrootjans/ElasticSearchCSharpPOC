@@ -49,12 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccessLayer.cs" />
-    <Compile Include="IDataReaderExtensions.cs" />
+    <Compile Include="DataAccess\DataAccessLayer.cs" />
+    <Compile Include="DataAccess\IDataReaderExtensions.cs" />
     <Compile Include="Indexer.cs" />
     <Compile Include="Indexables\Project.cs" />
     <Compile Include="QueryExecutor.cs" />
-    <Compile Include="IIndexable.cs" />
+    <Compile Include="Indexables\IIndexable.cs" />
     <Compile Include="Indexables\Tweet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
