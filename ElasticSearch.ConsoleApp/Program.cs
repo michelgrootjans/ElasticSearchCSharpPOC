@@ -28,10 +28,10 @@ namespace ElasticSearch.ConsoleApp
                                 .InitializeWith(new ProjectMapper());
             var projecten = new DataAccessLayer().GetProjecten();
             var start = DateTime.Now;
-            indexer.Index(new Tweet{UserName = "michelgrootjans", Text = "hello elasticsearch"});
-            indexer.Index(new User{FirstName = "Michel", LastName = "Grootjans"});
-            indexer.Index(projecten);
-            indexer.Flush();
+            indexer.Index(new Tweet { UserName = "michelgrootjans", Text = "Learning about elasticsearch" })
+                   .Index(new User { FirstName = "Michel", LastName = "Grootjans" })
+                   .Index(projecten)
+                   .Flush();
             Console.WriteLine("Done indexing {0} records - took {1}ms", projecten.Count(), (DateTime.Now - start).TotalMilliseconds);
         }
 

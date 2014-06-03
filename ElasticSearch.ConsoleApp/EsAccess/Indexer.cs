@@ -9,11 +9,13 @@ namespace ElasticSearch.ConsoleApp.EsAccess
     {
         private readonly IElasticConnection connection;
         private readonly string index_name;
+        private readonly JsonNetSerializer serializer;
 
         public Indexer(IElasticConnection connection, string indexName)
         {
             this.connection = connection;
             index_name = indexName;
+            serializer = new JsonNetSerializer();
         }
 
         public Indexer Reset()
@@ -29,7 +31,7 @@ namespace ElasticSearch.ConsoleApp.EsAccess
         public Indexer Index(IIndexable indexable)
         {
             var command = Commands.Index(index: index_name, type: indexable.GetType().Name, id: indexable._id);
-            var data = new JsonNetSerializer().ToJson(indexable);
+            var data = serializer.ToJson(indexable);
             connection.Put(command, data);
             return this;
         }
@@ -37,7 +39,6 @@ namespace ElasticSearch.ConsoleApp.EsAccess
         public Indexer Index<T>(IEnumerable<T> indexables) where T : IIndexable
         {
             var command = Commands.Bulk(index_name, typeof (T).Name);
-            var serializer = new JsonNetSerializer();
             var bulkJson =
                 new BulkBuilder(serializer)
                    .BuildCollection(indexables,

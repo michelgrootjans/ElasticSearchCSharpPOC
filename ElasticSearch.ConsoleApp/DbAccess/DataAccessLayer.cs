@@ -11,6 +11,7 @@ namespace ElasticSearch.ConsoleApp.DbAccess
 
         public IEnumerable<Project> GetProjecten()
         {
+            var projects = new List<Project>();
             using (var connection = CreateDbConnection())
             using (var command = connection.CreateCommand())
             {
@@ -19,14 +20,13 @@ namespace ElasticSearch.ConsoleApp.DbAccess
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
-                    var resultList = new List<Project>();
                     while (reader.Read())
                     {
-                        resultList.Add(MapToProject(reader));
+                        projects.Add(MapToProject(reader));
                     }
-                    return resultList;
                 }
             }
+            return projects;
         }
 
         private const string getProjectsQuery = @"
